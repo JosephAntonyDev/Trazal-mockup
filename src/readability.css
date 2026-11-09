@@ -1,0 +1,430 @@
+:root {
+  --text-primary: #30342b;
+  --text-secondary: #555f50;
+  --text-muted: #626b5b;
+}
+
+.title-with-help,
+.column-with-help {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.column-with-help {
+  display: inline-flex;
+}
+
+.help-trigger {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: #56624e;
+  border-radius: 50%;
+}
+
+.help-trigger:hover,
+.help-trigger[aria-expanded='true'] {
+  color: #30382b;
+  background: #f3efda;
+}
+
+.help-popover {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  width: min(24rem, calc(100% - 24px));
+  max-height: min(26rem, calc(100dvh - 24px));
+  padding: 16px 18px;
+  overflow: auto;
+  border: 0;
+  border-radius: 12px;
+  background: #293327;
+  color: #f7f8f2;
+  box-shadow: 0 8px 24px #222c2633;
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 400;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.help-popover > strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #fff;
+}
+
+.help-popover p {
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.help-popover p + p,
+.help-popover .help-link {
+  margin-top: 10px;
+}
+
+.help-popover .help-source {
+  color: #d2ddce;
+  font-size: 13px;
+}
+
+.help-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #ffdf67;
+  font-weight: 650;
+  text-align: left;
+}
+
+.mobile-data-label,
+.report-print-detail {
+  display: none;
+}
+
+.report-method {
+  margin-top: 23px;
+}
+
+@media screen {
+  main {
+    padding-top: 34px;
+  }
+
+  .page-heading h1 {
+    font-size: clamp(28px, 2.7vw, 38px);
+  }
+
+  .page-heading .title-with-help + .pill {
+    margin-top: 9px;
+  }
+
+  .sidebar nav > button,
+  .sidebar-bottom > button,
+  .breadcrumb,
+  .cut-select select,
+  .button,
+  .text-button,
+  .summary-strip > .button,
+  .report-toolbar > .button,
+  .modal-actions > .button,
+  .session-buttons .button {
+    font-size: 14px;
+  }
+
+  .sidebar nav > button {
+    line-height: 1.3;
+    min-height: 42px;
+  }
+
+  .sidebar nav > button.nav-separator {
+    margin-top: 12px;
+  }
+
+  .sidebar-bottom {
+    padding-top: 16px;
+  }
+
+  .project-switch > span {
+    font-size: 15px;
+  }
+
+  .project-switch small,
+  .local-status small,
+  .workspace-label {
+    font-size: 12px;
+  }
+
+  .local-status > span,
+  .pill,
+  .performance-block .pill,
+  .app-footer,
+  .app-footer button {
+    font-size: 13px;
+  }
+
+  .sidebar nav > button,
+  .breadcrumb,
+  .metric > div > span,
+  .metric > span,
+  .performance-block > span,
+  .projection-mini span,
+  .summary-strip span,
+  .category-progress,
+  .chart-reading,
+  .chart-legend > button,
+  .chart-legend > span,
+  .table-tools > span,
+  .table-tools .tabs > button,
+  .table-footer,
+  .report-toolbar > label,
+  .modal label,
+  .modal-intro {
+    color: var(--text-secondary);
+  }
+
+  .metric > div > span,
+  .metric > span,
+  .performance-block > span,
+  .projection-mini span,
+  .summary-strip span,
+  .category-progress,
+  .formula-card > span,
+  .file-card summary,
+  .sheet-line,
+  .ledger-row strong,
+  .profit-row,
+  .empty p,
+  .note-card > p,
+  .question select,
+  .note-card > select,
+  .modal-intro,
+  .modal label,
+  .reference-values > span,
+  .reference-values strong,
+  .cut-checklist > span,
+  .guide-list strong {
+    font-size: 15px;
+  }
+
+  .chart-reading,
+  .chart-legend > button,
+  .chart-legend > span,
+  .table-footer,
+  .table-tools > span,
+  .table-tools .tabs > button,
+  .ledger-row small,
+  .sheet-line small,
+  .source-note,
+  .guide-list p,
+  .panel-note p,
+  .report-toolbar > label {
+    font-size: 13px;
+  }
+
+  .panel-heading h2,
+  .section-heading h2,
+  .attention-card h2 {
+    font-size: 20px;
+  }
+
+  .question h3,
+  .source-issue h3,
+  .file-card h3 {
+    font-size: 16px;
+    color: var(--text-primary);
+  }
+
+  .table-tools {
+    flex-wrap: wrap;
+  }
+
+  .table-tools input,
+  .modal input,
+  .modal textarea,
+  .modal select,
+  .report-toolbar select {
+    font-size: 16px;
+  }
+
+  th {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  td,
+  td strong,
+  .code,
+  .concept-link,
+  .gantt-table td:nth-child(2),
+  .gantt-cell span {
+    font-size: 15px;
+    color: var(--text-primary);
+  }
+
+  td small,
+  .gantt-table td small {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .gantt-table {
+    min-width: 1000px;
+  }
+
+  .gantt-table td:nth-child(2) {
+    white-space: nowrap;
+  }
+
+  .gantt-cell {
+    min-width: 82px;
+    padding-left: 0;
+  }
+
+  .formula-explain p,
+  .original-description {
+    font-size: 15px;
+    color: var(--text-secondary);
+  }
+
+  .table-panel .table-scroll {
+    scrollbar-color: #9da693 #f1f3ec;
+  }
+
+  .metric > strong {
+    font-size: clamp(23px, 2.1vw, 34px);
+  }
+
+  .metric > div {
+    justify-content: flex-start;
+    gap: 4px;
+  }
+
+  .formula-card {
+    min-height: 104px;
+  }
+
+  .formula-card:hover {
+    border-color: var(--line);
+    background: white;
+  }
+
+  .formula-card > strong {
+    margin: 8px 0 0;
+  }
+
+  .formula-card .help-trigger svg {
+    color: inherit;
+  }
+
+  .performance-block > strong {
+    flex-wrap: wrap;
+  }
+
+  .performance-block .pill {
+    margin-left: 0;
+  }
+
+  .chart text {
+    font-size: 14px;
+    fill: var(--text-muted);
+  }
+
+  .attention-card h2,
+  .attention-card .text-button {
+    margin: 0;
+  }
+
+  .attention-card .text-button {
+    margin-top: 12px;
+    color: #68582a;
+  }
+
+  .file-card details {
+    margin-top: 14px;
+  }
+
+  .source-issue,
+  .question {
+    align-items: center;
+  }
+
+  .source-issue {
+    padding-block: 16px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .report-toolbar {
+    flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  main {
+    padding-top: 24px;
+  }
+
+  .mobile-data-label {
+    display: inline-block;
+    margin: 5px 8px 0 0;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .page-actions,
+  .chart-legend,
+  .section-heading {
+    flex-wrap: wrap;
+  }
+
+  .search,
+  .report-toolbar > label {
+    max-width: none;
+  }
+
+  .chart text {
+    font-size: 17px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .metric {
+    padding: 13px;
+  }
+
+  .metric > div > span,
+  .metric > span,
+  .section-heading .text-button,
+  .panel-heading > .text-button {
+    font-size: 14px;
+  }
+
+  .metric > div {
+    min-height: 42px;
+  }
+
+  .metric > strong {
+    font-size: clamp(19px, 5.6vw, 25px);
+    overflow-wrap: anywhere;
+  }
+
+  .cut-select select {
+    max-width: none;
+  }
+
+  .table-tools .tabs {
+    flex-wrap: wrap;
+  }
+
+  .source-issue,
+  .question {
+    align-items: flex-start;
+  }
+}
+
+@media (pointer: coarse) {
+  .help-trigger {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media print {
+  .help-trigger {
+    display: none;
+  }
+
+  .report-print-detail {
+    display: block;
+  }
+}
