@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.analysis/
+.qa/
+*.log
+*.tsbuildinfo
+/Trazal-demo-reunion.zip
+/mockup-preview.jpg
