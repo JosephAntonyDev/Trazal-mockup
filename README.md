@@ -12,6 +12,12 @@ Consulta [las reglas, el ejercicio de demostración y la propuesta para Flutter]
 
 La importación por pegado recibe cinco columnas: clave, descripción, unidad, cantidad y precio integrado sin IVA. Todavía no se procesan archivos Excel arbitrarios. Las estimaciones para cobro, penalizaciones, inventario y correcciones formales requieren reglas y formatos del ingeniero.
 
+## Buscar obras y conservar sus precios
+
+El inicio permite buscar por nombre, tipo, alcance, clave o descripción de conceptos, sin distinguir acentos ni mayúsculas. Se combinan filtros de tipo, estado del programa y periodo contractual (coincidencia de al menos un día). En Fechas, usa **Aplicar periodo**. Ordena por nombre, término o mayor presupuesto, y limpia los filtros para recuperar toda la lista. El caso de referencia aparece separado de los resultados.
+
+Cada obra conserva sus precios. Las fichas visuales solo comparten nombre, fotografía y unidad sugerida; no hay una tarifa global. Actualizar un precio en una obra no cambia otras. El presupuesto aprobado sigue fijo y cada compra posterior registra su importe y fecha por separado.
+
 ## Catálogo visual y recordatorios
 
 Dentro de **Catálogo y presupuesto → Materiales y servicios**, elige concreto, blocks, varillas o excavación y configura el precio, cantidad y unidad para esa obra. El costo directo permite añadir utilidad; el precio integrado evita sumarla dos veces. Puedes guardar precios pendientes en borrador. Cantidad vacía = 1 y unidad vacía = lote. No se realiza conversión de unidades ni control de existencias.

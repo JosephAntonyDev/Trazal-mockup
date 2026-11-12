@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {budgetTotals,conceptTotal,distributeDaily,freezeProject,parseCatalog,progressAt,projectMetrics,recordExpense,recordProgress,saveConcept,validateProjects} from './project-core.mjs';
+import {budgetTotals,conceptTotal,distributeDaily,findProjects,freezeProject,parseCatalog,progressAt,projectMetrics,recordExpense,recordProgress,saveConcept,validateProjects} from './project-core.mjs';
 const c={id:'c1',code:'CON-01',description:'Concreto',unit:'m³',quantity:100,price:100,pricing:'quoted',indirect:10,profit:20,charges:5,start:'2026-11-01',end:'2026-11-10',daily:distributeDaily(100,'2026-11-01','2026-11-10')};
 const draft=()=>({id:'p1',name:'Banqueta',type:'Urbanización',dimensions:'100 m',start:'2026-11-01',end:'2026-11-10',iva:16,concepts:[structuredClone(c)],progress:[],expenses:[],notes:[]});
 const progress=(percent,start='2026-11-01',end='2026-11-03')=>({id:`r-${end}`,conceptId:'c1',start,end,percent});
@@ -86,4 +86,36 @@ test('El recordatorio no afecta el presupuesto, el programa ni los indicadores',
   assert.deepEqual(projectMetrics(p,'2026-11-08'),projectMetrics(withReminder,'2026-11-08'));
   assert.deepEqual(p.baseline,withReminder.baseline);
   assert.throws(()=>validateProjects({version:2,projects:[{...p,reminder:{date:'mal',text:'Revisar'}}]}),/recordatorio/);
+});
+test('El mismo material conserva precios distintos por obra y una compra posterior no revalúa la línea base',()=>{
+  const a=freezeProject(saveConcept(draft(),{...c,materialId:'concreto',price:100}));
+  const b=saveConcept({...draft(),id:'p2'},{...c,materialId:'concreto',price:250});
+  const changed=saveConcept(b,{...b.concepts[0],price:300});
+  const purchased=recordExpense(a,{...expense,amount:9000});
+  const restored=validateProjects(JSON.parse(JSON.stringify({version:2,projects:[purchased,changed]}))).projects;
+  assert.equal(restored[0].concepts[0].price,100);assert.equal(restored[1].concepts[0].price,300);
+  assert.equal(restored[0].baseline.subtotal,10000);assert.equal(budgetTotals(restored[1]).subtotal,30000);
+});
+test('La búsqueda combina palabras sin acentos y encuentra nombre, alcance y conceptos',()=>{
+  const a={...draft(),name:'Escuela José',dimensions:'250 m²',type:'Escuelas'};
+  const b={...draft(),id:'p2',name:'Camino norte',type:'Caminos'};
+  assert.deepEqual(findProjects([a,b],{query:'  JOSE escuela 250 '}).map(p=>p.id),['p1']);
+  assert.equal(findProjects([a,b],{query:'CON-01 concreto'}).length,2);
+  assert.equal(findProjects([a,b],{query:'inexistente'}).length,0);
+});
+test('Los filtros de estado, tipo y periodo se combinan y el rango es inclusivo',()=>{
+  const a=freezeProject(draft());const b={...draft(),id:'p2',type:'Escuelas'};
+  assert.deepEqual(findProjects([a,b],{status:'fixed',type:'Urbanización',from:'2026-11-10',to:'2026-11-15'}).map(p=>p.id),['p1']);
+  assert.equal(findProjects([a,b],{status:'fixed',type:'Escuelas'}).length,0);
+  assert.equal(findProjects([a,b],{from:'2026-11-11'}).length,0);
+  assert.equal(findProjects([a,b],{to:'2026-11-01'}).length,2);
+  assert.equal(findProjects([a,b],{from:'2026-12-01',to:'2026-11-01'}).length,0);
+});
+test('Ordenar por nombre, presupuesto o término no modifica las obras ni su orden original',()=>{
+  const a={...draft(),name:'Zeta'};const b={...draft(),id:'p2',name:'Alameda',end:'2026-12-01',concepts:[{...c,price:200}]};
+  const source=[a,b],copy=structuredClone(source);
+  assert.deepEqual(findProjects(source,{sort:'name'}).map(p=>p.id),['p2','p1']);
+  assert.deepEqual(findProjects(source,{sort:'budget'}).map(p=>p.id),['p2','p1']);
+  assert.deepEqual(findProjects(source,{sort:'end'}).map(p=>p.id),['p1','p2']);
+  assert.deepEqual(source,copy);
 });

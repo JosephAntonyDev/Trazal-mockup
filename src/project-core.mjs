@@ -5,6 +5,22 @@ const finite = (n, min = 0) => typeof n === 'number' && Number.isFinite(n) && n 
 export const validDate = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0,10) === value;
 const text = value => typeof value === 'string' && value.trim().length > 0;
 
+/** @param {any[]} projects */
+export function findProjects(projects, {query='',type='',status='',from='',to='',sort='name'} = {}) {
+  const normalize = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es');
+  if ((from && !validDate(from)) || (to && !validDate(to)) || (from && to && from > to)) return [];
+  const terms = normalize(query).trim().split(/\s+/).filter(Boolean);
+  const matches = projects.filter(p => {
+    const searchable = normalize([p.name,p.type,p.dimensions,...p.concepts.flatMap(c=>[c.code,c.description])].join(' '));
+    return terms.every(term=>searchable.includes(term)) && (!type || p.type===type)
+      && (!status || (status==='fixed' ? !!p.baseline : !p.baseline))
+      && (!from || p.end>=from) && (!to || p.start<=to);
+  });
+  const names = (a,b) => a.name.localeCompare(b.name,'es',{sensitivity:'base'});
+  if(sort==='budget') return matches.map(p=>({project:p,total:budgetTotals(p).total})).sort((a,b)=>b.total-a.total||names(a.project,b.project)).map(p=>p.project);
+  return matches.sort((a,b)=>sort==='end'?a.end.localeCompare(b.end)||names(a,b):names(a,b));
+}
+
 /** @param {any} concept */
 export function conceptTotal(concept) {
   const direct = concept.quantity * concept.price;
