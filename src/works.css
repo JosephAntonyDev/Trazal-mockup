@@ -168,3 +168,35 @@
 .modal .button:disabled { background:#e7e8e4; border-color:#dedfd9; color:#92968d; opacity:1; cursor:not-allowed; box-shadow:none; }
 .modal .field-label { display:block; }
 .modal .field-label .required-mark { display:inline; }
+/* Native dialogs stay in the top layer while only their content can scroll. */
+.modal { position:fixed; inset:0; margin:auto; max-height:calc(100dvh - 32px); overscroll-behavior:contain; }
+.modal::backdrop { position:fixed; inset:0; background:rgba(37,49,27,.44); }
+.profile-main { max-width:1120px; padding:48px 36px 70px; margin:auto; }
+.profile-layout { display:grid; grid-template-columns:280px minmax(0,1fr); gap:28px; align-items:start; }
+.profile-card,.profile-details { background:white; border:1px solid #e0e4d8; border-radius:14px; padding:32px; }
+.profile-card { text-align:center; background:#f5f5ea; }
+.profile-card .works-avatar { width:76px; height:76px; font-size:27px; margin-bottom:18px; }
+.profile-card h2 { font-size:24px; line-height:1.4; overflow-wrap:anywhere; }
+.profile-card p { font-size:16px; color:#748068; margin:10px 0 22px; overflow-wrap:anywhere; }
+.profile-details h2 { font-size:22px; margin-bottom:12px; }
+.profile-details .ready-form-fields { border:0; padding:0; margin:0; min-width:0; }
+.profile-details label { display:flex; flex-direction:column; gap:9px; margin:20px 0; font-size:16px; color:#59654e; }
+.profile-details .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.profile-details input { width:100%; min-width:0; font-size:16px; padding:14px; color:#435638; background:white; border:1px solid #dce3d2; border-radius:7px; }
+.profile-details .modal-actions { border-top:1px solid #e8ebdf; padding-top:24px; margin-top:16px; }
+.profile-saved { display:flex; align-items:center; gap:8px; color:#5b7147; font-size:15px; margin-top:18px; }
+@media(max-width:760px) {
+  .modal { width:calc(100% - 24px); max-height:calc(100dvh - 24px); padding:20px; }
+  .modal.wide { width:calc(100% - 24px); }
+  .modal input,.modal select,.modal textarea { font-size:16px; }
+  .modal .icon-button { min-width:40px; min-height:40px; }
+  .profile-main { padding:28px 20px 40px; }
+  .profile-page .works-topbar { gap:16px; }
+  .profile-page .works-topbar>img { width:105px; }
+  .profile-page .works-topbar .text-button { font-size:14px; }
+  .profile-layout { grid-template-columns:1fr; gap:20px; }
+  .profile-card,.profile-details { padding:24px; }
+  .profile-details .form-grid { grid-template-columns:1fr; gap:0; }
+  .profile-details label { margin:16px 0; }
+  .profile-details .modal-actions .button { min-height:44px; font-size:15px; }
+}

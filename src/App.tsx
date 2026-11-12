@@ -1,3 +1,4 @@
+import {useModalScrollLock} from './useModalScrollLock';
 import {ReadyForm, Required} from './ReadyForm';
 import {useEffect,useRef,useState,type FormEvent,type ReactNode} from 'react';
 import {ArrowRight,ArrowUpRight,BarChart3,BookOpen,CalendarDays,Check,CheckCheck,ChevronDown,ChevronRight,ClipboardCheck,Download,FileSpreadsheet,FileText,FolderOpen,HardDrive,HelpCircle,Info,Layers,LayoutDashboard,Menu,MessageSquare,Plus,Printer,RotateCcw,Save,Search,Settings2,TrendingUp,Wallet,X,AlertTriangle,Clock3,Upload} from 'lucide-react';
@@ -45,7 +46,8 @@ export default function App({onWorks}:{onWorks?:()=>void}){
  const cash=cashRollforward(source.cash) as Array<typeof source.cash[number]&{opening:number;net:number;closing:number}>;const activeConcept=source.concepts.find(c=>c.id===modal?.id)||source.concepts.find(c=>c.progress<1)||source.concepts[0];
  useEffect(()=>{try{localStorage.setItem(STORAGE,JSON.stringify(workspace));setSaved(true);}catch{setSaved(false);}},[workspace]);
  useEffect(()=>{if(toast){const t=setTimeout(()=>setToast(''),3600);return()=>clearTimeout(t);}},[toast]);
- useEffect(()=>{if(modal){dialog.current?.showModal();document.body.style.overflow='hidden';}else{dialog.current?.close();document.body.style.overflow='';restoreFocus.current?.focus();}return()=>{document.body.style.overflow='';};},[modal]);
+ useEffect(()=>{if(modal){dialog.current?.showModal();}else{dialog.current?.close();restoreFocus.current?.focus();}},[modal]);
+ useModalScrollLock(!!modal);
  useEffect(()=>{if(!drawer)return;const close=(e:KeyboardEvent)=>{if(e.key==='Escape'){setDrawer(false);menuButton.current?.focus();}};window.addEventListener('keydown',close);return()=>window.removeEventListener('keydown',close);},[drawer]);
  function go(p:Page){setPage(p);setQuery('');setCategory('Todas');setDrawer(false);window.scrollTo({top:0,behavior:'instant'});}
  function open(kind:string,id?:string){restoreFocus.current=document.activeElement as HTMLElement;setError('');setImportStep(0);setModal({kind,id});}

@@ -89,8 +89,10 @@ Quedan por definir para Flutter: edición y versionado completo de presupuesto/A
 
 ## Formularios y perfil local
 
-- Al crear una obra, solo título y tipo son obligatorios. Dimensiones es opcional; fechas e IVA quedan pendientes.
+- Al crear una obra, solo título y tipo son obligatorios. Dimensiones e IVA son opcionales. Las fechas se definen después en el programa; el IVA vacío queda pendiente (distinto de 0 %).
 - En Programa de obra se define el plazo y se ajustan las fechas de cada concepto. Cambiar las fechas de un concepto requiere revisar su distribución diaria. El programa no se fija sin fechas, IVA confirmado, precios y cantidades diarias completos.
 - IVA pendiente se guarda como `null`, distinto de una tasa confirmada de 0 %. El total con IVA se muestra «Por definir» hasta configurarlo; los respaldos anteriores siguen siendo válidos.
 - Los campos obligatorios llevan asterisco. Crear requiere campos válidos; editar requiere además un cambio respecto al valor inicial. Revertir el cambio deshabilita Guardar. Esta regla también se aplica a los formularios de la demo de referencia.
-- El avatar abre el perfil local (nombre, apellido, correo, teléfono y empresa). El saludo usa el nombre guardado. No hay autenticación ni conexión con Firebase en el mockup; se revisará para Flutter. El perfil se almacena aparte del respaldo de obras.
+- El avatar abre una página completa de perfil local (nombre, apellido, correo, teléfono y empresa), con regreso a la obra o al inicio. El saludo usa el nombre guardado. No hay autenticación ni conexión con Firebase en el mockup; se revisará para Flutter. El perfil se almacena aparte del respaldo de obras.
+
+- Las modales bloquean el desplazamiento del documento y cubren la pantalla completa. En pantallas de poca altura, se desplaza el contenido de la modal; al cerrarla se recupera la posición de la página.
