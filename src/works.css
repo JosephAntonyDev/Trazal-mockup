@@ -1,5 +1,24 @@
 .works-app { --ink: #30342b; --soft: #73796c; min-height:100dvh; color:var(--ink); background:#fafaf6; font-size:16px; }
 .works-app button:disabled { opacity:.48; cursor:not-allowed; }
+.materials-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; margin:24px 0; }
+.material-card { border:1px solid #e0e4d5; border-radius:12px; overflow:hidden; background:#fff; }
+.material-card>img { width:100%; height:170px; object-fit:cover; background:#eff1e8; }
+.material-card>div { padding:18px; }
+.material-card h3 { font-size:21px; margin:8px 0; }
+.material-card p { font-size:14px; color:#69725d; margin-bottom:15px; }
+.material-credit { display:block; font-size:12px; line-height:1.6; color:#70795f; margin-top:12px; }
+.material-credit a { text-decoration:underline; text-underline-offset:2px; }
+.material-selected { display:flex; align-items:center; gap:20px; margin:20px 0; }
+.material-selected>img { width:140px; height:100px; object-fit:cover; border-radius:8px; }
+.material-concept { display:flex; align-items:center; gap:14px; }
+.material-concept>img { width:55px; height:55px; border-radius:7px; object-fit:cover; }
+.works-reminder { display:flex; align-items:flex-start; gap:16px; background:#f4f3e9; border:1px solid #e5e3d1; border-radius:10px; padding:22px; margin-top:24px; }
+.works-reminder>svg { color:#8d8252; flex-shrink:0; margin-top:4px; }
+.works-reminder h2 { font-size:18px; }
+.works-reminder p { font-size:15px; margin:6px 0; color:#60694e; }
+.works-reminder span { font-size:14px; color:#6c725e; }
+.works-reminder>.text-button { margin-left:auto; flex-shrink:0; }
+@media(max-width:540px) { .materials-grid { grid-template-columns:1fr; }.material-selected { align-items:flex-start; }.material-selected>img { width:90px;height:90px; }.works-reminder { flex-wrap:wrap; }.works-reminder>div { flex:1; }.works-reminder>.text-button { margin-left:38px; } }
 .works-topbar { height:84px; display:flex; align-items:center; justify-content:space-between; gap:18px; border-bottom:1px solid #e4e6dc; padding:0 38px; background:#fffffc; font-size:14px; }
 .works-topbar>img { width:140px; }
 .works-topbar>div { display:flex; gap:20px; align-items:center; }

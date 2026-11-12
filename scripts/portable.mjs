@@ -11,6 +11,9 @@ let css=readFileSync(resolve(root,'assets',cssName),'utf8');
 for(const name of readdirSync(resolve(root,'brand'))){
   js=js.replaceAll(`/brand/${name}`,data(`brand/${name}`,'image/svg+xml'));
 }
+for(const name of readdirSync(resolve(root,'materials')).filter(name=>name.endsWith('.jpg'))){
+  js=js.replaceAll(`/materials/${name}`,data(`materials/${name}`,'image/jpeg'));
+}
 css=css.replace(/url\(["']?\/fonts\/([^"')]+)["']?\)/g,(_,name)=>`url("${data('fonts/'+name,'font/woff2')}")`);
 let html=readFileSync(resolve(root,'index.html'),'utf8');
 html=html.replace(/<script[^>]*src="[^"]+"[^>]*><\/script>/,()=>`<script type="module">${js.replaceAll('</script','<\\/script')}</script>`);

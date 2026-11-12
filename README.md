@@ -12,6 +12,12 @@ Consulta [las reglas, el ejercicio de demostración y la propuesta para Flutter]
 
 La importación por pegado recibe cinco columnas: clave, descripción, unidad, cantidad y precio integrado sin IVA. Todavía no se procesan archivos Excel arbitrarios. Las estimaciones para cobro, penalizaciones, inventario y correcciones formales requieren reglas y formatos del ingeniero.
 
+## Catálogo visual y recordatorios
+
+Dentro de **Catálogo y presupuesto → Materiales y servicios**, elige concreto, blocks, varillas o excavación y configura el precio, cantidad y unidad para esa obra. El costo directo permite añadir utilidad; el precio integrado evita sumarla dos veces. Puedes guardar precios pendientes en borrador. Cantidad vacía = 1 y unidad vacía = lote. No se realiza conversión de unidades ni control de existencias.
+
+El resumen incluye un recordatorio editable de plazo. Las penalizaciones son externas y no afectan cálculos. Las fotos se sirven localmente y se incluyen también en el HTML autónomo; sus [créditos y licencias](public/materials/CREDITS.md) aparecen en las fichas.
+
 ## Llevarlo a la reunión
 
 Ejecuta `npm run build` y abre **`dist/Trazal-demo.html`** en Chrome o Edge. El HTML reúne la aplicación, las fuentes, los logos y los datos ficticios. Puedes copiar ese archivo a otra computadora y abrirlo sin servidor.

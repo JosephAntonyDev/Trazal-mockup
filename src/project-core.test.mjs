@@ -72,3 +72,18 @@ test('Respaldos y obras independientes conservan sus capturas',()=>{
   assert.throws(()=>validateProjects(tampered),/100/);
   assert.throws(()=>recordProgress(b,progress(20)),/Primero/);
 });
+test('El borrador admite precios pendientes, pero no se puede aprobar hasta completarlos',()=>{
+  const pending=saveConcept(draft(),{...c,materialId:'concreto',price:0});
+  assert.equal(budgetTotals(pending).total,0);
+  assert.equal(validateProjects({version:2,projects:[pending]}).projects[0].concepts[0].materialId,'concreto');
+  assert.throws(()=>freezeProject(pending),/precios pendientes/);
+  const priced=saveConcept(pending,{...pending.concepts[0],price:250});
+  assert.equal(freezeProject(priced).baseline.subtotal,25000);
+});
+test('El recordatorio no afecta el presupuesto, el programa ni los indicadores',()=>{
+  const p=freezeProject(draft());const withReminder={...p,reminder:{date:'2026-11-09',text:'Revisar cumplimiento con la dependencia'}};
+  validateProjects({version:2,projects:[withReminder]});
+  assert.deepEqual(projectMetrics(p,'2026-11-08'),projectMetrics(withReminder,'2026-11-08'));
+  assert.deepEqual(p.baseline,withReminder.baseline);
+  assert.throws(()=>validateProjects({version:2,projects:[{...p,reminder:{date:'mal',text:'Revisar'}}]}),/recordatorio/);
+});

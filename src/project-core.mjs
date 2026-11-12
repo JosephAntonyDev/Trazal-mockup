@@ -23,11 +23,12 @@ export function budgetTotals(project) {
 /** @param {any} project @param {any} concept */
 export function validateConcept(project, concept) {
   if (!text(concept.id) || !text(concept.code) || !text(concept.description) || !text(concept.unit)) fail('Completa clave, descripción y unidad.');
-  if (!finite(concept.quantity, 0.000001) || !finite(concept.price, 0.000001)) fail('Cantidad y precio deben ser mayores que cero.');
+  if (!finite(concept.quantity, 0.000001) || !finite(concept.price)) fail('La cantidad debe ser mayor que cero y el precio no puede ser negativo.');
+  if (concept.materialId !== undefined && typeof concept.materialId !== 'string') fail('La referencia del artículo no es válida.');
   if (!['quoted','build'].includes(concept.pricing) || ![concept.indirect,concept.profit,concept.charges].every(n => finite(n) && n <= 100)) fail('Revisa los porcentajes de composición del precio.');
   if (!validDate(concept.start) || !validDate(concept.end) || concept.end < concept.start || concept.start < project.start || concept.end > project.end) fail('Las fechas del concepto deben estar dentro del plazo de la obra.');
   if (project.concepts.some(c => c.id !== concept.id && c.code.toLowerCase() === concept.code.toLowerCase())) fail('Esta clave ya existe en la obra. Usa una clave única.');
-  if (!Number.isFinite(conceptTotal(concept)) || conceptTotal(concept) <= 0) fail('El importe del concepto debe ser mayor que cero.');
+  if (!Number.isFinite(conceptTotal(concept)) || conceptTotal(concept) < 0) fail('Revisa el importe del concepto.');
   if (concept.daily) {
     if (!Array.isArray(concept.daily) || !concept.daily.length) fail('Agrega la distribución diaria.');
     const dates = new Set();
@@ -48,6 +49,7 @@ export function saveConcept(project, concept) {
 export function freezeProject(project) {
   if (project.baseline) fail('Esta obra ya tiene un programa aprobado.');
   if (!project.concepts.length) fail('Agrega al menos un concepto antes de fijar el programa.');
+  if (project.concepts.some(c=>conceptTotal(c)<=0)) fail('Completa los precios pendientes antes de fijar el programa.');
   if (project.concepts.some(c=>!c.daily)) fail('Revisa y guarda la distribución diaria de cada concepto.');
   project.concepts.forEach(c => validateConcept(project,c));
   return {...project, baseline: {approvedAt: new Date().toISOString(), subtotal: budgetTotals(project).subtotal}};
@@ -129,9 +131,10 @@ export function validateProjects(input) {
   for (const p of input.projects) {
     if (!text(p.id) || ids.has(p.id) || !text(p.name) || !text(p.type) || typeof p.dimensions !== 'string' || !validDate(p.start) || !validDate(p.end) || p.end < p.start || !finite(p.iva) || p.iva>100 || !Array.isArray(p.concepts) || !Array.isArray(p.progress) || !Array.isArray(p.expenses) || !Array.isArray(p.notes) || !p.notes.every(n=>typeof n==='string')) fail('El respaldo contiene una obra no válida.');
     ids.add(p.id);
+    if (p.reminder !== undefined && (!p.reminder || !validDate(p.reminder.date) || !text(p.reminder.text))) fail('El recordatorio de plazo no es válido.');
     const conceptIds = new Set();
     for (const c of p.concepts) { if(conceptIds.has(c.id)) fail('Hay conceptos repetidos.'); conceptIds.add(c.id); validateConcept(p,c); }
-    if (p.baseline && (!p.concepts.length || p.concepts.some(c=>!c.daily) || !Number.isFinite(Date.parse(p.baseline.approvedAt)) || p.baseline.subtotal !== budgetTotals(p).subtotal)) fail('La línea base del respaldo no coincide con el presupuesto.');
+    if (p.baseline && (!p.concepts.length || p.concepts.some(c=>!c.daily || conceptTotal(c)<=0) || !Number.isFinite(Date.parse(p.baseline.approvedAt)) || p.baseline.subtotal !== budgetTotals(p).subtotal)) fail('La línea base del respaldo no coincide con el presupuesto.');
     let replay = {...p,progress:[],expenses:[]};
     const entryIds = new Set();
     for (const r of [...p.progress,...p.expenses]) {if(!text(r.id)||entryIds.has(r.id)) fail('Hay movimientos repetidos o sin identificador.');entryIds.add(r.id);}
