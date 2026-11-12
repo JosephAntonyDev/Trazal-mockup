@@ -14,11 +14,11 @@ export function findProjects(projects, {query='',type='',status='',from='',to=''
     const searchable = normalize([p.name,p.type,p.dimensions,...p.concepts.flatMap(c=>[c.code,c.description])].join(' '));
     return terms.every(term=>searchable.includes(term)) && (!type || p.type===type)
       && (!status || (status==='fixed' ? !!p.baseline : !p.baseline))
-      && (!from || p.end>=from) && (!to || p.start<=to);
+      && (!(from||to) || !!p.start&&!!p.end) && (!from || p.end>=from) && (!to || p.start<=to);
   });
   const names = (a,b) => a.name.localeCompare(b.name,'es',{sensitivity:'base'});
-  if(sort==='budget') return matches.map(p=>({project:p,total:budgetTotals(p).total})).sort((a,b)=>b.total-a.total||names(a.project,b.project)).map(p=>p.project);
-  return matches.sort((a,b)=>sort==='end'?a.end.localeCompare(b.end)||names(a,b):names(a,b));
+  if(sort==='budget') return matches.map(p=>({project:p,total:budgetTotals(p).total??budgetTotals(p).subtotal})).sort((a,b)=>b.total-a.total||names(a.project,b.project)).map(p=>p.project);
+  return matches.sort((a,b)=>sort==='end'?(a.end||'9999').localeCompare(b.end||'9999')||names(a,b):names(a,b));
 }
 
 /** @param {any} concept */
@@ -32,6 +32,7 @@ export function conceptTotal(concept) {
 /** @param {any} project */
 export function budgetTotals(project) {
   const subtotal = roundMoney(project.concepts.reduce((sum, c) => sum + conceptTotal(c), 0));
+  if(project.iva===null)return {subtotal,tax:null,total:null};
   const tax = roundMoney(subtotal * project.iva / 100);
   return {subtotal, tax, total: roundMoney(subtotal + tax)};
 }
@@ -42,7 +43,7 @@ export function validateConcept(project, concept) {
   if (!finite(concept.quantity, 0.000001) || !finite(concept.price)) fail('La cantidad debe ser mayor que cero y el precio no puede ser negativo.');
   if (concept.materialId !== undefined && typeof concept.materialId !== 'string') fail('La referencia del artículo no es válida.');
   if (!['quoted','build'].includes(concept.pricing) || ![concept.indirect,concept.profit,concept.charges].every(n => finite(n) && n <= 100)) fail('Revisa los porcentajes de composición del precio.');
-  if (!validDate(concept.start) || !validDate(concept.end) || concept.end < concept.start || concept.start < project.start || concept.end > project.end) fail('Las fechas del concepto deben estar dentro del plazo de la obra.');
+  if (!(concept.start==='' && concept.end==='' && !project.baseline && !concept.daily) && (!validDate(concept.start) || !validDate(concept.end) || !validDate(project.start) || !validDate(project.end) || concept.end < concept.start || concept.start < project.start || concept.end > project.end)) fail('Las fechas del concepto deben estar dentro del plazo de la obra.');
   if (project.concepts.some(c => c.id !== concept.id && c.code.toLowerCase() === concept.code.toLowerCase())) fail('Esta clave ya existe en la obra. Usa una clave única.');
   if (!Number.isFinite(conceptTotal(concept)) || conceptTotal(concept) < 0) fail('Revisa el importe del concepto.');
   if (concept.daily) {
@@ -64,6 +65,8 @@ export function saveConcept(project, concept) {
 /** @param {any} project */
 export function freezeProject(project) {
   if (project.baseline) fail('Esta obra ya tiene un programa aprobado.');
+  if (!validDate(project.start)||!validDate(project.end)||project.end<project.start) fail('Define las fechas en el programa de obra.');
+  if (project.iva===null) fail('Confirma el IVA en el presupuesto antes de fijar el programa.');
   if (!project.concepts.length) fail('Agrega al menos un concepto antes de fijar el programa.');
   if (project.concepts.some(c=>conceptTotal(c)<=0)) fail('Completa los precios pendientes antes de fijar el programa.');
   if (project.concepts.some(c=>!c.daily)) fail('Revisa y guarda la distribución diaria de cada concepto.');
@@ -100,7 +103,7 @@ export function recordExpense(project, entry) {
 /** @param {any} project */
 export function projectMetrics(project, cutoff) {
   const {subtotal: bac} = budgetTotals(project);
-  const pv = roundMoney(project.concepts.reduce((sum,c) => sum + (c.daily ? conceptTotal(c) * c.daily.filter(d=>d.date<=cutoff).reduce((s,d)=>s+d.quantity,0) / c.quantity : linearPlanned(conceptTotal(c), c.start, c.end, cutoff)),0));
+  const pv = roundMoney(project.concepts.reduce((sum,c) => sum + (c.daily ? conceptTotal(c) * c.daily.filter(d=>d.date<=cutoff).reduce((s,d)=>s+d.quantity,0) / c.quantity : (validDate(c.start)&&validDate(c.end)?linearPlanned(conceptTotal(c), c.start, c.end, cutoff):0)),0));
   const ev = roundMoney(project.concepts.reduce((sum,c) => sum + roundMoney(conceptTotal(c) * progressAt(project,c.id,cutoff) / 100),0));
   const ac = roundMoney(project.expenses.filter(e => e.date <= cutoff).reduce((sum,e) => sum + e.amount,0));
   return {bac,pv,ev,ac,progress: bac > 0 ? ev / bac * 100 : 0, cv: roundMoney(ev-ac),sv:roundMoney(ev-pv),cpi:ac>0?ev/ac:null,spi:pv>0?ev/pv:null};
@@ -145,7 +148,7 @@ export function validateProjects(input) {
   if (!input || input.version !== 2 || !Array.isArray(input.projects)) fail('Este archivo no es un respaldo de obras de Trazal.');
   const ids = new Set();
   for (const p of input.projects) {
-    if (!text(p.id) || ids.has(p.id) || !text(p.name) || !text(p.type) || typeof p.dimensions !== 'string' || !validDate(p.start) || !validDate(p.end) || p.end < p.start || !finite(p.iva) || p.iva>100 || !Array.isArray(p.concepts) || !Array.isArray(p.progress) || !Array.isArray(p.expenses) || !Array.isArray(p.notes) || !p.notes.every(n=>typeof n==='string')) fail('El respaldo contiene una obra no válida.');
+    if (!text(p.id) || ids.has(p.id) || !text(p.name) || !text(p.type) || typeof p.dimensions !== 'string' || !(p.start===''&&p.end===''&&!p.baseline || validDate(p.start)&&validDate(p.end)&&p.end>=p.start) || !(p.iva===null&&!p.baseline || finite(p.iva)&&p.iva<=100) || !Array.isArray(p.concepts) || !Array.isArray(p.progress) || !Array.isArray(p.expenses) || !Array.isArray(p.notes) || !p.notes.every(n=>typeof n==='string')) fail('El respaldo contiene una obra no válida.');
     ids.add(p.id);
     if (p.reminder !== undefined && (!p.reminder || !validDate(p.reminder.date) || !text(p.reminder.text))) fail('El recordatorio de plazo no es válido.');
     const conceptIds = new Set();
@@ -158,4 +161,13 @@ export function validateProjects(input) {
     for (const e of p.expenses) replay = recordExpense(replay,e);
   }
   return input;
+}
+
+/** Set a draft work's period without silently discarding a concept's approved draft dates. */
+export function scheduleProject(project, start, end) {
+  if(project.baseline)fail('El programa aprobado está bloqueado.');
+  if(!validDate(start)||!validDate(end)||end<start)fail('Revisa las fechas del programa.');
+  const next={...project,start,end,concepts:project.concepts.map(c=>c.start?c:{...c,start,end})};
+  validateProjects({version:2,projects:[next]});
+  return next;
 }

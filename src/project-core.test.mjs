@@ -119,3 +119,32 @@ test('Ordenar por nombre, presupuesto o término no modifica las obras ni su ord
   assert.deepEqual(findProjects(source,{sort:'end'}).map(p=>p.id),['p1','p2']);
   assert.deepEqual(source,copy);
 });
+import {scheduleProject} from './project-core.mjs';
+
+test('Crear con título y tipo permite fechas e IVA pendientes sin inventar un total',()=>{
+  const p={...draft(),start:'',end:'',iva:null,concepts:[]};
+  assert.deepEqual(validateProjects({version:2,projects:[p]}).projects[0],p);
+  const next=saveConcept(p,{...c,start:'',end:'',daily:undefined});
+  assert.deepEqual(budgetTotals(next),{subtotal:10000,tax:null,total:null});
+  assert.equal(projectMetrics(next,'2026-11-11').pv,0);
+  assert.throws(()=>freezeProject(next),/fechas/);
+  assert.equal(findProjects([next],{to:'2026-12-31'}).length,0);
+  assert.equal(findProjects([next],{query:'Banqueta'}).length,1);
+  for(const fields of [{name:'  '},{type:''},{start:'2026-11-01',end:''},{iva:undefined}])assert.throws(()=>validateProjects({version:2,projects:[{...p,...fields}]}));
+});
+
+test('Definir el programa después conserva precios y exige confirmar IVA antes de aprobar',()=>{
+  const pending={...draft(),start:'',end:'',iva:null,concepts:[{...c,start:'',end:'',daily:undefined}]};
+  const scheduled=scheduleProject(pending,'2026-11-01','2026-11-10');
+  assert.equal(scheduled.concepts[0].start,'2026-11-01');
+  assert.equal(scheduled.concepts[0].price,c.price);
+  assert.equal(pending.start,'');
+  assert.throws(()=>freezeProject(scheduled),/IVA/);
+  const ready=saveConcept({...scheduled,iva:0},{...scheduled.concepts[0],daily:distributeDaily(100,scheduled.start,scheduled.end)});
+  assert.equal(budgetTotals(ready).total,10000);
+  assert.ok(freezeProject(ready).baseline);
+  assert.throws(()=>scheduleProject(ready,'2026-11-05','2026-11-10'),/fechas/);
+  assert.throws(()=>scheduleProject(freezeProject(ready),'2026-11-01','2026-11-11'),/bloqueado/);
+  assert.throws(()=>validateProjects({version:2,projects:[{...freezeProject(ready),iva:null}]}));
+  assert.deepEqual(validateProjects(JSON.parse(JSON.stringify({version:2,projects:[pending, {...ready,id:'ready'}]}))).projects[0],JSON.parse(JSON.stringify(pending)));
+});
