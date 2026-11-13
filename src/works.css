@@ -171,32 +171,65 @@
 /* Native dialogs stay in the top layer while only their content can scroll. */
 .modal { position:fixed; inset:0; margin:auto; max-height:calc(100dvh - 32px); overscroll-behavior:contain; }
 .modal::backdrop { position:fixed; inset:0; background:rgba(37,49,27,.44); }
-.profile-main { max-width:1120px; padding:48px 36px 70px; margin:auto; }
-.profile-layout { display:grid; grid-template-columns:280px minmax(0,1fr); gap:28px; align-items:start; }
-.profile-card,.profile-details { background:white; border:1px solid #e0e4d8; border-radius:14px; padding:32px; }
-.profile-card { text-align:center; background:#f5f5ea; }
-.profile-card .works-avatar { width:76px; height:76px; font-size:27px; margin-bottom:18px; }
-.profile-card h2 { font-size:24px; line-height:1.4; overflow-wrap:anywhere; }
-.profile-card p { font-size:16px; color:#748068; margin:10px 0 22px; overflow-wrap:anywhere; }
-.profile-details h2 { font-size:22px; margin-bottom:12px; }
+/* Profile uses the available workspace rather than a narrow centered form. */
+.profile-page .works-topbar { height:72px; padding-inline:clamp(20px,3vw,48px); }
+.profile-main { width:100%; max-width:none; padding:24px clamp(20px,3vw,48px) 32px; margin:0; }
+.profile-main .works-heading { margin-bottom:22px; }
+.profile-main .works-heading h1 { margin:0 0 8px; font-size:32px; }
+.profile-main .works-heading p { font-size:16px; }
+.profile-panel { background:white; border:1px solid #e0e4d8; border-radius:12px; overflow:hidden; }
+.profile-identity-bar { display:flex; align-items:center; gap:18px; padding:22px 28px; background:#f5f5ea; border-bottom:1px solid #e0e4d8; }
+.profile-identity-bar .works-avatar { width:60px; height:60px; font-size:23px; }
+.profile-identity-bar>div { min-width:0; flex:1; }
+.profile-identity-bar h2 { font-size:23px; line-height:1.3; overflow-wrap:anywhere; }
+.profile-identity-bar p { font-size:15px; color:#6a745f; margin:5px 0 0; overflow-wrap:anywhere; }
+.profile-identity-bar .pill { flex-shrink:0; }
+.profile-details { padding:24px 28px 0; }
+.profile-details .form-required-note { margin:0 0 20px; }
 .profile-details .ready-form-fields { border:0; padding:0; margin:0; min-width:0; }
-.profile-details label { display:flex; flex-direction:column; gap:9px; margin:20px 0; font-size:16px; color:#59654e; }
-.profile-details .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.profile-details input { width:100%; min-width:0; font-size:16px; padding:14px; color:#435638; background:white; border:1px solid #dce3d2; border-radius:7px; }
-.profile-details .modal-actions { border-top:1px solid #e8ebdf; padding-top:24px; margin-top:16px; }
-.profile-saved { display:flex; align-items:center; gap:8px; color:#5b7147; font-size:15px; margin-top:18px; }
+.profile-field-groups { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:32px; }
+.profile-field-groups>section { min-width:0; }
+.profile-field-groups>section+section { padding-left:32px; border-left:1px solid #e8ebdf; }
+.profile-field-groups h2 { font-size:19px; margin:0 0 20px; font-weight:650; }
+.profile-details label { display:flex; flex-direction:column; gap:8px; margin:0 0 20px; font-size:16px; color:#59654e; }
+.profile-details .form-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:20px; }
+.profile-details input { width:100%; min-width:0; height:50px; font-size:16px; padding:12px 14px; color:#435638; background:white; border:1px solid #dce3d2; border-radius:7px; }
+.profile-details input:focus-visible { outline:2px solid #b89c38; outline-offset:2px; border-color:#ad922e; }
+.profile-details input::placeholder { color:#8a9182; }
+.profile-details .modal-actions { border-top:1px solid #e8ebdf; padding:20px 0; margin-top:4px; gap:12px; }
+.profile-details .modal-actions .button { min-height:46px; padding-inline:24px; font-size:15px; flex:none; }
+.profile-saved { display:flex; align-items:center; gap:8px; color:#5b7147; font-size:15px; margin:0 0 16px; }
+@media(max-width:1000px) {
+  .profile-field-groups { gap:24px; }
+  .profile-field-groups>section+section { padding-left:24px; }
+  .profile-field-groups .form-grid { grid-template-columns:1fr; gap:0; }
+}
 @media(max-width:760px) {
   .modal { width:calc(100% - 24px); max-height:calc(100dvh - 24px); padding:20px; }
   .modal.wide { width:calc(100% - 24px); }
   .modal input,.modal select,.modal textarea { font-size:16px; }
   .modal .icon-button { min-width:40px; min-height:40px; }
-  .profile-main { padding:28px 20px 40px; }
-  .profile-page .works-topbar { gap:16px; }
+  .profile-page .works-topbar { height:64px; padding-inline:18px; gap:12px; }
   .profile-page .works-topbar>img { width:105px; }
   .profile-page .works-topbar .text-button { font-size:14px; }
-  .profile-layout { grid-template-columns:1fr; gap:20px; }
-  .profile-card,.profile-details { padding:24px; }
-  .profile-details .form-grid { grid-template-columns:1fr; gap:0; }
-  .profile-details label { margin:16px 0; }
-  .profile-details .modal-actions .button { min-height:44px; font-size:15px; }
+  .profile-main { padding:20px 16px 24px; }
+  .profile-main .works-heading { margin-bottom:18px; }
+  .profile-main .works-heading h1 { font-size:28px; }
+  .profile-main .works-heading p { font-size:15px; line-height:1.5; }
+  .profile-identity-bar { display:grid; grid-template-columns:48px minmax(0,1fr); padding:18px; gap:8px 12px; }
+  .profile-identity-bar .works-avatar { width:48px; height:48px; font-size:20px; }
+  .profile-identity-bar h2 { font-size:21px; }
+  .profile-identity-bar p { font-size:14px; }
+  .profile-identity-bar .pill { grid-column:2; justify-self:start; margin:0; }
+  .profile-details { padding:20px 18px 0; }
+  .profile-field-groups { grid-template-columns:1fr; gap:0; }
+  .profile-field-groups>section+section { padding:20px 0 0; margin-top:0; border-left:0; border-top:1px solid #e8ebdf; }
+  .profile-field-groups h2 { font-size:18px; margin-bottom:18px; }
+  .profile-details label { margin-bottom:18px; }
+  .profile-details .modal-actions { flex-wrap:nowrap; padding:18px 0; }
+  .profile-details .modal-actions .button { flex:1; padding-inline:12px; }
+}
+@media(max-width:380px) {
+  .profile-details .modal-actions { flex-direction:column-reverse; align-items:stretch; }
+  .profile-details .modal-actions .button { width:100%; flex:auto; }
 }
