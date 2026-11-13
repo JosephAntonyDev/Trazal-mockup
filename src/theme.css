@@ -1,0 +1,74 @@
+.theme-select { display:inline-flex; align-items:center; gap:6px; flex-shrink:0; color:var(--text-secondary); }
+.theme-select select { width:auto; min-height:40px; padding:8px 7px; font-size:14px; background:transparent; border-color:var(--line); }
+.profile-top-actions { display:flex; align-items:center; gap:20px; }
+:root { color-scheme:light; }
+@media screen {
+  :root[data-theme='dark'] {
+    color-scheme:dark;
+    --curve-pv:#78b4df;
+    --curve-ev:#b6bdb5;
+    --curve-ac:#ed887b;
+    --theme-text:#edf0e7;
+    --theme-secondary:#c0c8b8;
+    --theme-muted:#a9b39f;
+    --theme-surface:#20251f;
+    --theme-inset:#171b17;
+    --theme-hover:#343b30;
+    --theme-tint:#2a3025;
+    --theme-border:#444e3e;
+    --theme-accent:#f5d76a;
+    --theme-accent-soft:#423b20;
+    --theme-success:#b5d69d;
+    --theme-danger:#f0b198;
+    background:#171b17;
+    scrollbar-color:#66715d #20251f;
+  }
+  :root[data-theme='dark'] .skip { background:#eed051; color:#27291e; }
+  :root[data-theme='dark'] body,
+  :root[data-theme='dark'] .works-app { background:#171b17; }
+  :root[data-theme='dark'] .brand img,
+  :root[data-theme='dark'] .works-topbar>img,
+  :root[data-theme='dark'] .report-header img,
+  :root[data-theme='dark'] .works-report>img { filter:brightness(0) invert(.93); }
+  :root[data-theme='dark'] .button.primary,
+  :root[data-theme='dark'] .works-avatar { background:#eed051; border-color:#c7ad42; color:#27291e; }
+  :root[data-theme='dark'] .button.primary:hover:not(:disabled) { background:#f9df73; border-color:#e0c659; }
+  :root[data-theme='dark'] .button:disabled { background:#30372e; border-color:#40483b; color:#9ca691; opacity:1; }
+  :root[data-theme='dark'] .works-sidebar nav button[aria-current='page'],
+  :root[data-theme='dark'] .sidebar nav>button.active { background:#423b20; color:#f5d76a; }
+  :root[data-theme='dark'] .pill.yellow { background:#423b20; color:#f5d76a; }
+  :root[data-theme='dark'] .pill.olive { background:#2c3c28; color:#b5d69d; }
+  :root[data-theme='dark'] .pill.clay { background:#44302a; color:#f0b198; }
+  :root[data-theme='dark'] .project-switch { background:#2a3025; }
+  :root[data-theme='dark'] :is(.category-progress i,.table-progress i,.gantt-cell i) { background:#b4c793; }
+  :root[data-theme='dark'] .works-progress-value progress::-webkit-progress-value { background:#b4c793; }
+  :root[data-theme='dark'] .works-progress-value progress::-moz-progress-bar { background:#b4c793; }
+  :root[data-theme='dark'] :is(input,select,textarea) { color:#edf0e7; }
+  :root[data-theme='dark'] :is(input,textarea)::placeholder { color:#a0ab97; opacity:1; }
+  :root[data-theme='dark'] option { background:#20251f; color:#edf0e7; }
+  :root[data-theme='dark'] :is(button,a,input,textarea,select,summary):focus-visible { outline-color:#eed051; }
+  :root[data-theme='dark'] .modal { background:#20251f; box-shadow:0 24px 80px #0008; }
+  :root[data-theme='dark'] .modal::backdrop { background:#050905b3; }
+  :root[data-theme='dark'] .help-popover { background:#343c2e; color:#edf0e7; box-shadow:0 8px 28px #0008; border:1px solid #5b674f; }
+  :root[data-theme='dark'] .help-popover strong { color:#f5d76a; }
+  :root[data-theme='dark'] .table-panel .table-scroll { scrollbar-color:#66715d #20251f; }
+  :root[data-theme='dark'] :is(.chart,.works-curve) svg line { stroke:#485140; }
+  :root[data-theme='dark'] .works-curve svg text { fill:#bcc7b1; }
+  :root[data-theme='dark'] .works-curve svg polyline { stroke-width:3.5; }
+  :root[data-theme='dark'] ::selection { background:#716224; color:#fff; }
+}
+@media(max-width:760px) {
+  .works-topbar>div { gap:10px; }
+  .works-home .works-topbar { padding-inline:16px; gap:10px; }
+  .works-home .works-topbar>img { width:100px; min-width:0; }
+  .works-home .works-topbar>div { gap:8px; }
+  .works-home .works-profile-button>span:first-child { display:none; }
+  .theme-select { gap:4px; }
+  .theme-select select { max-width:94px; }
+  .profile-page .works-topbar { height:auto; min-height:64px; padding-block:12px; flex-wrap:wrap; }
+  .profile-page .works-topbar .profile-top-actions { width:auto; gap:12px; flex-wrap:wrap; }
+  .profile-page .profile-top-actions>.text-button { white-space:nowrap; }
+  .top-actions { gap:8px; }
+  .top-actions>.pill { display:none; }
+}
+@media print { .theme-select { display:none!important; } }

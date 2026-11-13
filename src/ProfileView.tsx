@@ -1,3 +1,4 @@
+import {ThemeSelect} from './Theme';
 import {useState, type FormEvent} from 'react';
 import {ArrowLeft, Check, UserRound} from 'lucide-react';
 import {ReadyForm, Required} from './ReadyForm';
@@ -19,7 +20,7 @@ export function ProfileView({profile,onSave,onBack,backLabel}:{profile:Profile;o
     }catch{setSaved(false);setError('No se pudo guardar el perfil. Revisa los datos y el almacenamiento del navegador.');}
   }
   return <div className="works-app profile-page">
-    <header className="works-topbar"><img src="/brand/horizontal-mono.svg" alt="Trazal"/><button className="text-button" onClick={onBack}><ArrowLeft size={18}/>{backLabel}</button></header>
+    <header className="works-topbar"><img src="/brand/horizontal-mono.svg" alt="Trazal"/><div className="profile-top-actions"><ThemeSelect/><button className="text-button" onClick={onBack}><ArrowLeft size={18}/>{backLabel}</button></div></header>
     <main className="profile-main">
       <div className="works-heading"><div><div className="title-with-help"><h1>Mi perfil</h1><Help title="Mi perfil">Estos datos se guardan solo en este navegador. El acceso con una cuenta se integrará en la aplicación de escritorio. El perfil no se incluye en los respaldos de obras.</Help></div><p>Administra tus datos personales y de contacto.</p></div></div>
       <section className="profile-panel" aria-label="Editar mi perfil">

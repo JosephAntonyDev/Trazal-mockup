@@ -1,3 +1,4 @@
+import {ThemeSelect} from './Theme';
 import {useEffect, useRef, useState, type FormEvent, type ReactNode} from 'react';
 import {ArrowLeft, ArrowRight, CalendarDays, Check, ClipboardCheck, Download, FolderOpen, HardDrive, Layers, LayoutDashboard, LockKeyhole, MessageSquare, Plus, Printer, Search, TrendingUp, Upload, Wallet, X} from 'lucide-react';
 import LegacyApp from './App';
@@ -34,7 +35,7 @@ const pages:{id:Page;label:string;icon:typeof Layers}[] = [
 function Curve({project,cutoff}:{project:Project;cutoff:string}) {
   const series = projectSeries(project,cutoff);
   const [visible,setVisible] = useState({pv:true,ev:true,ac:true});
-  const colors = {pv:'#4687B5',ev:'#68716B',ac:'#C34F43'};
+  const colors = {pv:'var(--curve-pv, #4687B5)',ev:'var(--curve-ev, #68716B)',ac:'var(--curve-ac, #C34F43)'};
   const labels = {pv:'Programa fijo',ev:'Avance real',ac:'Gasto real'};
   const width=900,height=290,left=76,right=25,top=20,bottom=45;
   const start=Date.parse(project.start), end=Date.parse(series.at(-1)!.date);
@@ -150,7 +151,7 @@ export default function Works() {
   return <div className="works-app">
     {project&&<aside className="works-sidebar"><button className="brand" onClick={()=>setSelected(null)}><img src="/brand/symbol-mono.svg" alt=""/><span>trazal<small>CONTROL DE OBRA</small></span></button><button className="button works-back" onClick={()=>setSelected(null)}><ArrowLeft size={17}/> Mis obras</button><div className="works-project-name"><strong>{project.name}</strong><span>{project.type}</span></div><nav aria-label="Secciones de la obra">{pages.map(p=><button key={p.id} aria-current={page===p.id?'page':undefined} onClick={()=>go(p.id)}><p.icon size={19}/>{p.label}</button>)}</nav><div className="works-local"><HardDrive size={17}/>{saved?'Guardado en este navegador':'No se pudo guardar. Exporta un respaldo.'}</div></aside>}
     <div className={project?'works-shell':'works-home'}>
-      <header className="works-topbar">{project?<span>{project.name} <span className="works-slash">/</span> {selectedTitle}</span>:<img src="/brand/horizontal-mono.svg" alt="Trazal"/>}<div><span className="pill yellow">Mockup · revisión con el ingeniero</span><button className="works-profile-button" onClick={()=>{setProfileOpen(true);window.scrollTo({top:0,behavior:'instant'});}} aria-label="Abrir mi perfil"><span>Bienvenido, <strong>{profile.firstName}</strong></span><span className="works-avatar">{(profile.firstName[0]+(profile.lastName[0]||'')).toLocaleUpperCase()}</span></button></div></header>
+      <header className="works-topbar">{project?<span>{project.name} <span className="works-slash">/</span> {selectedTitle}</span>:<img src="/brand/horizontal-mono.svg" alt="Trazal"/>}<div><ThemeSelect/><span className="pill yellow">Mockup · revisión con el ingeniero</span><button className="works-profile-button" onClick={()=>{setProfileOpen(true);window.scrollTo({top:0,behavior:'instant'});}} aria-label="Abrir mi perfil"><span>Bienvenido, <strong>{profile.firstName}</strong></span><span className="works-avatar">{(profile.firstName[0]+(profile.lastName[0]||'')).toLocaleUpperCase()}</span></button></div></header>
       {!project?<main className="works-main works-home-main">
         <div className="works-heading"><div><span className="eyebrow">TU ESPACIO DE TRABAJO</span><h1>Cada obra, en orden.</h1><p>Del catálogo al control diario de avance y gasto.</p></div><button className="button primary" onClick={()=>open('create')}><Plus size={18}/> Crear obra</button></div>
         <div className="works-home-tools"><h2>Mis obras <span>{projects.length}</span></h2><button className="text-button" onClick={exportAll}><Download size={17}/> Respaldar obras</button><button className="text-button" onClick={()=>backup.current?.click()}><Upload size={17}/> Recuperar respaldo</button></div>

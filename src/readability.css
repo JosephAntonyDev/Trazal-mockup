@@ -1,111 +1,111 @@
 :root {
-  --text-primary: #30342b;
-  --text-secondary: #555f50;
-  --text-muted: #626b5b;
+  --text-primary:var(--theme-text, #30342b);
+  --text-secondary:var(--theme-text, #555f50);
+  --text-muted:var(--theme-secondary, #626b5b);
 }
 
 .title-with-help,
 .column-with-help {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 0;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
 }
 
 .column-with-help {
-  display: inline-flex;
+  display:inline-flex;
 }
 
 .help-trigger {
-  display: inline-grid;
-  place-items: center;
-  flex: 0 0 auto;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  color: #56624e;
-  border-radius: 50%;
+  display:inline-grid;
+  place-items:center;
+  flex:0 0 auto;
+  width:32px;
+  height:32px;
+  padding:0;
+  color:var(--theme-text, #56624e);
+  border-radius:50%;
 }
 
 .help-trigger:hover,
 .help-trigger[aria-expanded='true'] {
-  color: #30382b;
-  background: #f3efda;
+  color:var(--theme-text, #30382b);
+  background:var(--theme-tint, #f3efda);
 }
 
 .help-popover {
-  position: fixed;
-  inset: auto;
-  margin: 0;
-  width: min(24rem, calc(100% - 24px));
-  max-height: min(26rem, calc(100dvh - 24px));
-  padding: 16px 18px;
-  overflow: auto;
-  border: 0;
-  border-radius: 12px;
-  background: #293327;
-  color: #f7f8f2;
-  box-shadow: 0 8px 24px #222c2633;
-  font-size: 15px;
-  line-height: 1.55;
-  font-weight: 400;
-  white-space: normal;
-  overflow-wrap: anywhere;
-  text-align: left;
+  position:fixed;
+  inset:auto;
+  margin:0;
+  width:min(24rem, calc(100% - 24px));
+  max-height:min(26rem, calc(100dvh - 24px));
+  padding:16px 18px;
+  overflow:auto;
+  border:0;
+  border-radius:12px;
+  background:var(--theme-inset, #293327);
+  color:var(--theme-text, #f7f8f2);
+  box-shadow:0 8px 24px #222c2633;
+  font-size:15px;
+  line-height:1.55;
+  font-weight:400;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  text-align:left;
 }
 
 .help-popover > strong {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 16px;
-  color: #fff;
+  display:block;
+  margin-bottom:5px;
+  font-size:16px;
+  color:var(--theme-text, #fff);
 }
 
 .help-popover p {
-  color: inherit;
-  font-size: inherit;
-  line-height: inherit;
+  color:inherit;
+  font-size:inherit;
+  line-height:inherit;
 }
 
 .help-popover p + p,
 .help-popover .help-link {
-  margin-top: 10px;
+  margin-top:10px;
 }
 
 .help-popover .help-source {
-  color: #d2ddce;
-  font-size: 13px;
+  color:var(--theme-secondary, #d2ddce);
+  font-size:13px;
 }
 
 .help-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  color: #ffdf67;
-  font-weight: 650;
-  text-align: left;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  color:var(--theme-accent, #ffdf67);
+  font-weight:650;
+  text-align:left;
 }
 
 .mobile-data-label,
 .report-print-detail {
-  display: none;
+  display:none;
 }
 
 .report-method {
-  margin-top: 23px;
+  margin-top:23px;
 }
 
 @media screen {
   main {
-    padding-top: 34px;
+    padding-top:34px;
   }
 
   .page-heading h1 {
-    font-size: clamp(28px, 2.7vw, 38px);
+    font-size:clamp(28px, 2.7vw, 38px);
   }
 
   .page-heading .title-with-help + .pill {
-    margin-top: 9px;
+    margin-top:9px;
   }
 
   .sidebar nav > button,
@@ -118,30 +118,30 @@
   .report-toolbar > .button,
   .modal-actions > .button,
   .session-buttons .button {
-    font-size: 14px;
+    font-size:14px;
   }
 
   .sidebar nav > button {
-    line-height: 1.3;
-    min-height: 42px;
+    line-height:1.3;
+    min-height:42px;
   }
 
   .sidebar nav > button.nav-separator {
-    margin-top: 12px;
+    margin-top:12px;
   }
 
   .sidebar-bottom {
-    padding-top: 16px;
+    padding-top:16px;
   }
 
   .project-switch > span {
-    font-size: 15px;
+    font-size:15px;
   }
 
   .project-switch small,
   .local-status small,
   .workspace-label {
-    font-size: 12px;
+    font-size:12px;
   }
 
   .local-status > span,
@@ -149,7 +149,7 @@
   .performance-block .pill,
   .app-footer,
   .app-footer button {
-    font-size: 13px;
+    font-size:13px;
   }
 
   .sidebar nav > button,
@@ -169,7 +169,7 @@
   .report-toolbar > label,
   .modal label,
   .modal-intro {
-    color: var(--text-secondary);
+    color:var(--text-secondary);
   }
 
   .metric > div > span,
@@ -193,7 +193,7 @@
   .reference-values strong,
   .cut-checklist > span,
   .guide-list strong {
-    font-size: 15px;
+    font-size:15px;
   }
 
   .chart-reading,
@@ -208,24 +208,24 @@
   .guide-list p,
   .panel-note p,
   .report-toolbar > label {
-    font-size: 13px;
+    font-size:13px;
   }
 
   .panel-heading h2,
   .section-heading h2,
   .attention-card h2 {
-    font-size: 20px;
+    font-size:20px;
   }
 
   .question h3,
   .source-issue h3,
   .file-card h3 {
-    font-size: 16px;
-    color: var(--text-primary);
+    font-size:16px;
+    color:var(--text-primary);
   }
 
   .table-tools {
-    flex-wrap: wrap;
+    flex-wrap:wrap;
   }
 
   .table-tools input,
@@ -233,12 +233,12 @@
   .modal textarea,
   .modal select,
   .report-toolbar select {
-    font-size: 16px;
+    font-size:16px;
   }
 
   th {
-    font-size: 14px;
-    color: var(--text-secondary);
+    font-size:14px;
+    color:var(--text-secondary);
   }
 
   td,
@@ -247,184 +247,184 @@
   .concept-link,
   .gantt-table td:nth-child(2),
   .gantt-cell span {
-    font-size: 15px;
-    color: var(--text-primary);
+    font-size:15px;
+    color:var(--text-primary);
   }
 
   td small,
   .gantt-table td small {
-    font-size: 13px;
-    color: var(--text-muted);
+    font-size:13px;
+    color:var(--text-muted);
   }
 
   .gantt-table {
-    min-width: 1000px;
+    min-width:1000px;
   }
 
   .gantt-table td:nth-child(2) {
-    white-space: nowrap;
+    white-space:nowrap;
   }
 
   .gantt-cell {
-    min-width: 82px;
-    padding-left: 0;
+    min-width:82px;
+    padding-left:0;
   }
 
   .formula-explain p,
   .original-description {
-    font-size: 15px;
-    color: var(--text-secondary);
+    font-size:15px;
+    color:var(--text-secondary);
   }
 
   .table-panel .table-scroll {
-    scrollbar-color: #9da693 #f1f3ec;
+    scrollbar-color:#9da693 #f1f3ec;
   }
 
   .metric > strong {
-    font-size: clamp(23px, 2.1vw, 34px);
+    font-size:clamp(23px, 2.1vw, 34px);
   }
 
   .metric > div {
-    justify-content: flex-start;
-    gap: 4px;
+    justify-content:flex-start;
+    gap:4px;
   }
 
   .formula-card {
-    min-height: 104px;
+    min-height:104px;
   }
 
   .formula-card:hover {
-    border-color: var(--line);
-    background: white;
+    border-color:var(--line);
+    background:var(--theme-surface, white);
   }
 
   .formula-card > strong {
-    margin: 8px 0 0;
+    margin:8px 0 0;
   }
 
   .formula-card .help-trigger svg {
-    color: inherit;
+    color:inherit;
   }
 
   .performance-block > strong {
-    flex-wrap: wrap;
+    flex-wrap:wrap;
   }
 
   .performance-block .pill {
-    margin-left: 0;
+    margin-left:0;
   }
 
   .chart text {
-    font-size: 14px;
-    fill: var(--text-muted);
+    font-size:14px;
+    fill:var(--text-muted);
   }
 
   .attention-card h2,
   .attention-card .text-button {
-    margin: 0;
+    margin:0;
   }
 
   .attention-card .text-button {
-    margin-top: 12px;
-    color: #68582a;
+    margin-top:12px;
+    color:var(--theme-accent, #68582a);
   }
 
   .file-card details {
-    margin-top: 14px;
+    margin-top:14px;
   }
 
   .source-issue,
   .question {
-    align-items: center;
+    align-items:center;
   }
 
   .source-issue {
-    padding-block: 16px;
+    padding-block:16px;
   }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width:1100px) {
   .report-toolbar {
-    flex-wrap: wrap;
+    flex-wrap:wrap;
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width:800px) {
   main {
-    padding-top: 24px;
+    padding-top:24px;
   }
 
   .mobile-data-label {
-    display: inline-block;
-    margin: 5px 8px 0 0;
-    color: var(--text-muted);
-    font-size: 13px;
+    display:inline-block;
+    margin:5px 8px 0 0;
+    color:var(--text-muted);
+    font-size:13px;
   }
 
   .page-actions,
   .chart-legend,
   .section-heading {
-    flex-wrap: wrap;
+    flex-wrap:wrap;
   }
 
   .search,
   .report-toolbar > label {
-    max-width: none;
+    max-width:none;
   }
 
   .chart text {
-    font-size: 17px;
+    font-size:17px;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width:480px) {
   .metric {
-    padding: 13px;
+    padding:13px;
   }
 
   .metric > div > span,
   .metric > span,
   .section-heading .text-button,
   .panel-heading > .text-button {
-    font-size: 14px;
+    font-size:14px;
   }
 
   .metric > div {
-    min-height: 42px;
+    min-height:42px;
   }
 
   .metric > strong {
-    font-size: clamp(19px, 5.6vw, 25px);
-    overflow-wrap: anywhere;
+    font-size:clamp(19px, 5.6vw, 25px);
+    overflow-wrap:anywhere;
   }
 
   .cut-select select {
-    max-width: none;
+    max-width:none;
   }
 
   .table-tools .tabs {
-    flex-wrap: wrap;
+    flex-wrap:wrap;
   }
 
   .source-issue,
   .question {
-    align-items: flex-start;
+    align-items:flex-start;
   }
 }
 
-@media (pointer: coarse) {
+@media (pointer:coarse) {
   .help-trigger {
-    width: 44px;
-    height: 44px;
+    width:44px;
+    height:44px;
   }
 }
 
 @media print {
   .help-trigger {
-    display: none;
+    display:none;
   }
 
   .report-print-detail {
-    display: block;
+    display:block;
   }
 }

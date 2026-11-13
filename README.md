@@ -96,3 +96,10 @@ Quedan por definir para Flutter: edición y versionado completo de presupuesto/A
 - El avatar abre una página completa de perfil local (nombre, apellido, correo, teléfono y empresa), con regreso a la obra o al inicio. El saludo usa el nombre guardado. No hay autenticación ni conexión con Firebase en el mockup; se revisará para Flutter. El perfil se almacena aparte del respaldo de obras.
 
 - Las modales bloquean el desplazamiento del documento y cubren la pantalla completa. En pantallas de poca altura, se desplaza el contenido de la modal; al cerrarla se recupera la posición de la página.
+
+
+## Apariencia
+
+El selector de la cabecera ofrece **Claro**, **Oscuro** y **Sistema** en el inicio, las obras, la demo de referencia y el perfil. La elección se guarda en `trazal-theme-v1`, se comparte entre pestañas del mismo origen y no modifica las obras. Sistema es la opción inicial y sigue los cambios de apariencia del equipo. Sin almacenamiento disponible, el tema funciona durante la sesión.
+
+`src/Theme.tsx` gestiona la preferencia; `src/theme.css` define la paleta oscura y los ajustes de contraste. Los estilos existentes usan colores claros de respaldo en sus variables. Las curvas conservan azul (programa), gris (avance) y rojo (gasto) con tonos más claros en oscuro. La paleta oscura se limita a pantalla para conservar la impresión clara. El HTML autónomo incluye ambos temas.
