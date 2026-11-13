@@ -94,8 +94,7 @@ export function recordProgress(project, entry) {
 
 /** @param {any} project @param {any} entry */
 export function recordExpense(project, entry) {
-  if (!project.baseline) fail('Primero fija el programa de obra.');
-  if (!validDate(entry.date) || entry.date < project.start || !text(entry.label) || !finite(entry.amount,0.01) || !finite(entry.iva) || entry.iva > 100 || (entry.conceptId && !project.concepts.some(c => c.id === entry.conceptId))) fail('Revisa la fecha, el concepto, el importe y el IVA del gasto.');
+  if (!validDate(entry.date) || !text(entry.label) || !finite(entry.amount,0.01) || !finite(entry.iva) || entry.iva > 100 || (entry.conceptId && !project.concepts.some(c => c.id === entry.conceptId))) fail('Revisa la fecha, el concepto, el importe y el IVA del gasto.');
   if (!finite(entry.quantity) || typeof entry.unit !== 'string' || !text(entry.category)) fail('Revisa la cantidad, unidad y categoría del gasto.');
   return {...project, expenses: [...project.expenses, entry]};
 }

@@ -5,6 +5,15 @@ const c={id:'c1',code:'CON-01',description:'Concreto',unit:'m³',quantity:100,pr
 const draft=()=>({id:'p1',name:'Banqueta',type:'Urbanización',dimensions:'100 m',start:'2026-11-01',end:'2026-11-10',iva:16,concepts:[structuredClone(c)],progress:[],expenses:[],notes:[]});
 const progress=(percent,start='2026-11-01',end='2026-11-03')=>({id:`r-${end}`,conceptId:'c1',start,end,percent});
 const expense={id:'e1',conceptId:'c1',date:'2026-11-03',label:'Cemento',quantity:10,unit:'toneladas',category:'Materiales',amount:6000,iva:16};
+test('Gastos generales por categoría antes de programar conservan presupuesto y respaldo',()=>{
+  const p={...draft(),start:'',end:'',iva:null,concepts:[]};
+  const e={...expense,conceptId:'',category:'Servicios',label:'Servicio topográfico',amount:1500};
+  const next=recordExpense(p,e);
+  assert.equal(projectMetrics(next,'2026-11-03').ac,1500);
+  assert.deepEqual(next.concepts,[]);assert.equal(next.baseline,undefined);
+  assert.equal(validateProjects({version:2,projects:[next]}).projects[0].expenses[0].category,'Servicios');
+  assert.throws(()=>recordExpense(p,{...e,amount:-1}));
+});
 test('El precio integrado no duplica utilidad; la composición usa costo directo y el IVA se suma una vez',()=>{
   assert.equal(conceptTotal(c),10000);
   assert.equal(conceptTotal({...c,pricing:'build'}),13500);
