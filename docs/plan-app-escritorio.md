@@ -1,6 +1,6 @@
 # Trazal · Plan para iniciar la aplicación de escritorio
 
-Preparado el 12 de noviembre de 2026. Estado: propuesta para acordar con el equipo; todavía no se ha iniciado la aplicación de escritorio.
+Preparado el 12 de noviembre de 2026; actualizado el 13 de noviembre. Estado: propuesta para acordar con el equipo; todavía no se ha iniciado la aplicación de escritorio.
 
 ## 1. La decisión que cambia con Windows 7
 
@@ -20,6 +20,10 @@ Microsoft enumera .NET Framework 4.8 como instalable en Windows 7 SP1 de 32 y 64
 Podemos recrear la identidad amarilla de Trazal, los temas y la distribución moderna con estilos WPF. Las pantallas, ayudas, flujos y ejemplos del mockup sirven de especificación; sus componentes React no se convierten automáticamente a WPF o Flutter.
 
 ## 2. Datos que necesitamos del equipo del ingeniero
+
+Información provisional aportada por Joseph el 13 de noviembre: probablemente Windows de 64 bits y entre 4 y 8 GB de RAM. No se ha comprobado la ficha del equipo ni la presencia de Service Pack 1.
+
+Para diseñar y medir rendimiento, tomar **4 GB de RAM como objetivo inicial**; 8 GB será margen adicional. Esto no constituye todavía un requisito mínimo validado. Empezar por evaluar la compilación x64, pero confirmar la arquitectura antes de elegir el instalador definitivo. Esta estimación de hardware no decide el cambio de Flutter a WPF.
 
 Antes de fijar arquitectura del instalador y requisitos mínimos, registrar:
 
@@ -137,7 +141,7 @@ Caso inicial de aceptación: concepto de 100 unidades a $100 sin IVA; presupuest
 - Imágenes locales pequeñas, sin efectos de desenfoque continuos y con animación discreta. Verificar controladores y representación por software si la GPU falla.
 - Medir compilaciones Release, no la sesión del depurador.
 
-Objetivos iniciales de prueba, sujetos a la ficha del equipo: apertura en hasta 5 segundos, búsqueda/captura común perceptiblemente inmediata y hasta unos 300 MB de memoria con una obra de referencia. Medir con 5,000 conceptos y una prueba mayor; acordar límites después. No son requisitos mínimos ni cifras garantizadas todavía.
+Objetivos iniciales de prueba, sujetos a la ficha del equipo: apertura en hasta 5 segundos, búsqueda/captura común perceptiblemente inmediata y hasta unos 300 MB de memoria con una obra de referencia. Probar primero en un entorno de 4 GB de RAM y repetir en el equipo real; 8 GB no debe ser una condición para el flujo básico que estamos diseñando. Medir con 5,000 conceptos y una prueba mayor; acordar límites después. No son requisitos mínimos ni cifras garantizadas todavía.
 
 ## 9. Archivos y respaldos
 
