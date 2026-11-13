@@ -2,6 +2,10 @@
 
 Prototipo local e interactivo en React, TypeScript y Vite para revisar con el ingeniero la futura aplicación de escritorio de control de obra. Usa la identidad amarilla Linde de Trazal y un caso de obra ficticio.
 
+## Plan de la aplicación de escritorio
+
+El primer usuario necesita Windows 7. El [plan de inicio, descargas y compatibilidad](docs/plan-app-escritorio.md) documenta la limitación de Flutter actual, la propuesta de evaluar C# + WPF + .NET Framework 4.8 para Windows 7 SP1 y la prueba de instalación necesaria antes de iniciar el producto. La tecnología final sigue pendiente de acordarse con el equipo.
+
 ## Actualización de la reunión del 10 de noviembre
 
 La entrada ahora es **Mis obras**. Permite crear obras independientes, capturar o pegar catálogos de Excel, componer precios, configurar IVA, programar cantidades diarias y fijar la línea base antes de registrar avances y gastos. Incluye avance acumulado por porcentaje o cantidad, bloqueo al 100 %, compras con fecha y cantidades, CPI/SPI, observaciones, reporte y respaldo de obras.
