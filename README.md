@@ -4,7 +4,7 @@ Prototipo local e interactivo en React, TypeScript y Vite para revisar con el in
 
 ## Plan de la aplicación de escritorio
 
-El primer usuario necesita Windows 7. El [plan de inicio, descargas y compatibilidad](docs/plan-app-escritorio.md) documenta la limitación de Flutter actual, la propuesta de evaluar C# + WPF + .NET Framework 4.8 para Windows 7 SP1 y la prueba de instalación necesaria antes de iniciar el producto. La tecnología final sigue pendiente de acordarse con el equipo.
+El primer usuario necesita Windows 7. La app de escritorio ya se desarrolla por separado en C# + WPF + .NET Framework 4.8 y SQLite; falta validarla en Windows 7 SP1 real. El [plan inicial](docs/plan-app-escritorio.md) conserva la evaluación anterior. Este repositorio sigue siendo el mockup React para revisar la experiencia; no incluye login, registro ni Firebase.
 
 ## Actualización de la reunión del 10 de noviembre
 
@@ -14,7 +14,7 @@ El flujo nuevo utiliza `trazal-projects-v2`. **Respaldar obras** exporta todo; *
 
 Consulta [las reglas, el ejercicio de demostración y la propuesta para Flutter](docs/reunion-2026-11-10.md). El PDF de la reunión anterior describe el caso anterior; no cubre todavía este nuevo recorrido.
 
-La importación por pegado recibe cinco columnas: clave, descripción, unidad, cantidad y precio integrado sin IVA. Todavía no se procesan archivos Excel arbitrarios. Las estimaciones para cobro, penalizaciones, inventario y correcciones formales requieren reglas y formatos del ingeniero.
+La importación por pegado recibe cinco columnas: clave, descripción, unidad, cantidad y precio integrado sin IVA. **Importar XLSX** permite seleccionar hoja, rango y columnas, revisar filas válidas/inválidas y confirmar la selección antes de agregarla al presupuesto. Incluye precio en la fila siguiente. Lee valores guardados; no recalcula fórmulas ni importa el programa original. Límite para la demostración: 5 MB, 50 hojas, 10000 filas por hoja y 100 columnas. Para XLS antiguo, guardar una copia XLSX o pegar el catálogo; el escritorio sí dispone de lector XLS. Las estimaciones para cobro y correcciones formales siguen pendientes de acordar.
 
 ## Buscar obras y conservar sus precios
 
@@ -24,9 +24,31 @@ Cada obra conserva sus precios. Las fichas visuales solo comparten nombre, fotog
 
 ## Catálogo visual y recordatorios
 
-Dentro de **Catálogo y presupuesto → Materiales y servicios**, elige concreto, blocks, varillas o excavación y configura el precio, cantidad y unidad para esa obra. El costo directo permite añadir utilidad; el precio integrado evita sumarla dos veces. Puedes guardar precios pendientes en borrador. Cantidad vacía = 1 y unidad vacía = lote. No se realiza conversión de unidades ni control de existencias.
+**Inventario e insumos** tiene fichas independientes del catálogo de trabajos. Incluye fotos de referencia para cemento, arena, grava, tubo de cobre, concreto, blocks, varillas y excavación. Permite agregar otros insumos, buscar por nombre, filtrar materiales/servicios/equipo y editar nombre, unidad, cantidad, precio y especificaciones por obra. Cantidad y precio pueden quedar pendientes; cero y pendiente se conservan como valores diferentes.
+
+**Registrar compra** prepara el formulario con la descripción, unidad, cantidad y un importe sugerido (cantidad × precio) cuando ambos existen. Se revisan fecha, importe y categoría antes de guardar el gasto; el IVA sigue siendo opcional. No actualiza el presupuesto fijo ni genera avance. Las cantidades de la ficha son de referencia; no hay entradas/salidas ni cálculo de existencias de almacén. Excavación es un servicio/trabajo.
+
+El presupuesto conserva **Nuevo concepto** para los trabajos medibles: «Construcción de banqueta de concreto» es diferente a comprar cemento. El costo directo permite añadir utilidad; el precio integrado evita sumarla dos veces. No hay conversiones automáticas entre unidades.
 
 El resumen incluye un recordatorio editable de plazo. Las penalizaciones son externas y no afectan cálculos. Las fotos se sirven localmente y se incluyen también en el HTML autónomo; sus [créditos y licencias](public/materials/CREDITS.md) aparecen en las fichas.
+
+## Recorrido actualizado del mockup
+
+En **Mis obras**, pulsa **Cargar obra de ejemplo** para revisar una obra ficticia completa sin capturarla desde cero. Las obras previas se conservan. Puedes crear otras, filtrar la lista y editar título, tipo y alcance dentro de cada obra. Guardar se deshabilita hasta completar los obligatorios o cambiar un formulario de edición.
+
+- **Catálogo y presupuesto:** capturar trabajos, pegar catálogo o importar XLSX con revisión; precios e IVA propios de la obra.
+- **Programa de obra:** fechas, distribución diaria revisable y fijación de línea base. Se conserva al capturar avance/gasto.
+- **Avance real:** acumulados por cantidad o porcentaje, límite del 100 % y rechazo de fechas futuras.
+- **Inventario e insumos:** fichas y compra con precio libre por obra, sin control físico de almacén.
+- **Gastos y compras:** categorías, calendario, IVA opcional y edición de registros sin duplicarlos.
+- **Curva S y desempeño:** vista propia, programa azul fijo, avance gris y gastos rojos escalonados; indicadores y tabla de valores. Las compras previas al programa se incluyen. El detalle se puede exportar como CSV.
+- **Flujo de efectivo:** entradas y pagos separados de los gastos. Consulta el saldo al corte, edita movimientos y exporta CSV. Los pagos no se suman a AC; se evita contar la misma compra dos veces. El saldo empieza en cero.
+- **Acuerdos y reporte:** presupuesto, programa, historial de avances, categorías, detalle de gastos y gráfica, con impresión/PDF y Excel de ocho hojas. La hoja Curva S contiene datos; la gráfica aparece en el PDF.
+- **Respaldos:** vista previa de obras y conteos; exige confirmar antes de recuperar copias. Conserva insumos y efectivo, además del contenido anterior. No reemplaza las obras existentes.
+
+Perfil con placeholders, temas claro/oscuro/sistema y selector de sección en móvil. Todo se guarda en el navegador y se puede respaldar en JSON; no hay cuenta, nube ni sincronización en este mockup. La futura web partirá de otro proyecto.
+
+Verificación: `npm test` (31 casos), compilación TypeScript/Vite, pruebas en Chrome de formularios, XLSX, reportes, respaldos, persistencia y vista móvil. No usar este prototipo como control contable real.
 
 ## Llevarlo a la reunión
 

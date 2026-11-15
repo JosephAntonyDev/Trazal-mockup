@@ -1,4 +1,5 @@
 import {roundMoney, linearPlanned} from './core.mjs';
+import {validateResources,validateCash} from './workspace-core.mjs';
 
 const fail = message => { throw new Error(message); };
 const finite = (n, min = 0) => typeof n === 'number' && Number.isFinite(n) && n >= min;
@@ -85,6 +86,8 @@ export function recordProgress(project, entry) {
   const concept = project.concepts.find(c => c.id === entry.conceptId);
   if (!concept) fail('Selecciona un concepto de esta obra.');
   if (!validDate(entry.start) || !validDate(entry.end) || entry.start > entry.end || entry.start < project.start) fail('Revisa el periodo del avance.');
+  const now=new Date(),today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  if(entry.end>today)fail('El avance ejecutado no puede registrarse en una fecha futura.');
   const prior = project.progress.filter(r => r.conceptId === concept.id).sort((a,b) => b.end.localeCompare(a.end))[0];
   if (prior?.percent === 100) fail('Este concepto ya llegó al 100 %. No admite más avance.');
   if (prior && entry.start <= prior.end) fail('El nuevo periodo debe empezar después del último avance registrado.');
@@ -96,7 +99,7 @@ export function recordProgress(project, entry) {
 export function recordExpense(project, entry) {
   if (!validDate(entry.date) || !text(entry.label) || !finite(entry.amount,0.01) || !finite(entry.iva) || entry.iva > 100 || (entry.conceptId && !project.concepts.some(c => c.id === entry.conceptId))) fail('Revisa la fecha, el concepto, el importe y el IVA del gasto.');
   if (!finite(entry.quantity) || typeof entry.unit !== 'string' || !text(entry.category)) fail('Revisa la cantidad, unidad y categoría del gasto.');
-  return {...project, expenses: [...project.expenses, entry]};
+  return {...project, expenses: [...project.expenses.filter(e=>e.id!==entry.id), entry]};
 }
 
 /** @param {any} project */
@@ -118,11 +121,10 @@ export function distributeDaily(quantity, start, end) {
 
 /** @param {any} project */
 export function projectSeries(project, cutoff) {
-  const finish = [project.end,cutoff].sort().at(-1);
-  const first = Date.parse(project.start), last = Date.parse(finish);
+  if(!validDate(project.start)||!validDate(project.end)||!validDate(cutoff))return [];
   const dates = new Set([project.start, project.end, cutoff, ...project.concepts.flatMap(c=>(c.daily||[]).map(d=>d.date)), ...project.progress.map(r=>r.end), ...project.expenses.map(e=>e.date)]);
-  for (let i=0;i<=24;i++) dates.add(new Date(first + Math.round((last-first)/86400000*i/24)*86400000).toISOString().slice(0,10));
-  return [...dates].filter(d=>d>=project.start && d<=finish).sort().map(date => ({date,...projectMetrics(project,date)}));
+  const finish = [project.end,cutoff].sort().at(-1);
+  return [...dates].filter(d=>validDate(d)&&d<=finish).sort().map(date => ({date,...projectMetrics(project,date)}));
 }
 
 /** @param {any} project */
@@ -149,6 +151,7 @@ export function validateProjects(input) {
   for (const p of input.projects) {
     if (!text(p.id) || ids.has(p.id) || !text(p.name) || !text(p.type) || typeof p.dimensions !== 'string' || !(p.start===''&&p.end===''&&!p.baseline || validDate(p.start)&&validDate(p.end)&&p.end>=p.start) || !(p.iva===null&&!p.baseline || finite(p.iva)&&p.iva<=100) || !Array.isArray(p.concepts) || !Array.isArray(p.progress) || !Array.isArray(p.expenses) || !Array.isArray(p.notes) || !p.notes.every(n=>typeof n==='string')) fail('El respaldo contiene una obra no válida.');
     ids.add(p.id);
+    validateResources(p.resources);validateCash(p.cash);
     if (p.reminder !== undefined && (!p.reminder || !validDate(p.reminder.date) || !text(p.reminder.text))) fail('El recordatorio de plazo no es válido.');
     const conceptIds = new Set();
     for (const c of p.concepts) { if(conceptIds.has(c.id)) fail('Hay conceptos repetidos.'); conceptIds.add(c.id); validateConcept(p,c); }

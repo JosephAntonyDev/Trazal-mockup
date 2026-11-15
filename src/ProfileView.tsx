@@ -30,7 +30,7 @@ export function ProfileView({profile,onSave,onBack,backLabel}:{profile:Profile;o
             <p className="form-required-note"><Required/> Campos obligatorios</p>
             <div className="profile-field-groups">
               <section aria-labelledby="personal-title"><h2 id="personal-title">Información personal</h2>
-                <div className="form-grid"><label><span className="field-label">Nombre<Required/></span><input name="firstName" required maxLength={80} defaultValue={profile.firstName} autoComplete="given-name"/></label><label>Apellido<input name="lastName" maxLength={100} defaultValue={profile.lastName} autoComplete="family-name" placeholder="Tu apellido"/></label></div>
+                <div className="form-grid"><label><span className="field-label">Nombre<Required/></span><input name="firstName" required maxLength={80} defaultValue={profile.firstName} autoComplete="given-name" placeholder="Ej. Joseph"/></label><label>Apellido<input name="lastName" maxLength={100} defaultValue={profile.lastName} autoComplete="family-name" placeholder="Ej. García López"/></label></div>
                 <label>Empresa<input name="company" maxLength={140} defaultValue={profile.company} autoComplete="organization" placeholder="Nombre de tu empresa"/></label>
               </section>
               <section aria-labelledby="contact-title"><h2 id="contact-title">Contacto</h2>

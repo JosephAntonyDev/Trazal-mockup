@@ -19,7 +19,7 @@ let html=readFileSync(resolve(root,'index.html'),'utf8');
 html=html.replace(/<script[^>]*src="[^"]+"[^>]*><\/script>/,()=>`<script type="module">${js.replaceAll('</script','<\\/script')}</script>`);
 html=html.replace(/<link[^>]*rel="stylesheet"[^>]*>/,()=>`<style>${css}</style>`);
 html=html.replace('/brand/app-icon-color.svg',data('brand/app-icon-color.svg','image/svg+xml'));
-const notices=['public/fonts/dm-sans-OFL.txt','public/fonts/manrope-OFL.txt','node_modules/react/LICENSE','node_modules/react-dom/LICENSE','node_modules/lucide-react/LICENSE'].map(path=>`${path}\n${readFileSync(resolve(projectRoot,path),'utf8')}`).join('\n\n');
+const notices=['public/fonts/dm-sans-OFL.txt','public/fonts/manrope-OFL.txt','node_modules/react/LICENSE','node_modules/react-dom/LICENSE','node_modules/lucide-react/LICENSE','node_modules/read-excel-file/LICENSE','node_modules/write-excel-file/LICENSE','node_modules/fflate/LICENSE','node_modules/saxen/LICENSE','node_modules/unzipper-esm/LICENSE','public/materials/CREDITS.md'].map(path=>`${path}\n${readFileSync(resolve(projectRoot,path),'utf8')}`).join('\n\n');
 html=html.replace('</head>',`<!-- Third-party notices\n${notices.replaceAll('--','—')}\n-->\n</head>`);
 writeFileSync(resolve(root,'Trazal-demo.html'),html);
 console.log(`Demo autónoma: ${resolve(root, 'Trazal-demo.html')}`);
