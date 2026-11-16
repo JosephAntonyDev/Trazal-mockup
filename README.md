@@ -1,5 +1,7 @@
 # Trazal-mockup
 
+Para trabajar con el equipo: [guía de contribución, comprobaciones y tareas](CONTRIBUTING.md).
+
 Prototipo local e interactivo en React, TypeScript y Vite para revisar con el ingeniero la futura aplicación de escritorio de control de obra. Usa la identidad amarilla Linde de Trazal y un caso de obra ficticio.
 
 ## Estado del producto (15/11/2026)
