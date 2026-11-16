@@ -155,3 +155,12 @@ Validación: build y pruebas de cálculos; recorrido de navegador en 360, 390, 7
 Inicio y áreas de obra aprovechan el ancho disponible, con márgenes laterales fluidos y menor espacio superior. Mis obras queda alineado a la izquierda y sus acciones agrupadas a la derecha, con salto de fila en móvil. Las tarjetas se redistribuyen por ancho y los nombres largos no ensanchan el documento. Tablas y gráficas conservan su desplazamiento dentro del panel.
 
 Revisión en navegador local: inicio, perfil, modal de creación y las nueve secciones de obra, entre 320 y 1920 px, sin desbordamiento horizontal del documento. Las tablas anchas se desplazan dentro de su contenedor. Build y 31 pruebas numéricas aprobados. Los espacios vacíos por tener pocas obras corresponden a datos disponibles, sin añadir tarjetas ficticias para rellenar.
+
+
+### Cuenta adaptada al alto disponible (16/11/2026)
+
+Las siete vistas de `AccountPreview` (acceso, registro, recuperación, correo enviado, nueva contraseña, confirmación y cuenta) distribuyen campos y tarjetas según el ancho **y el alto útil del navegador**. Se compactan cabecera, márgenes y acciones; los formularios usan dos columnas cuando hay espacio, y el panel decorativo desaparece en ventanas estrechas. El error de confirmación usa el espacio de ayuda del formulario y se anuncia al lector de pantalla. Los cambios están limitados al recorrido de cuenta.
+
+Validación en Chrome local: 77 combinaciones de siete vistas por once ventanas: 1920×1080, 1920×900, 1536×690, 1366×650, 1280×600, 1024×600, 800×600, 768×700, 390×844, 360×740 y 320×568. Las ocho ventanas de computadora/tableta no presentan scroll vertical; ninguna presenta desbordamiento horizontal. Incluye registro con contraseñas distintas y cuenta con suscripción vencida. En 390×844 caben acceso y recuperación; registro y cuenta conservan desplazamiento. No se bloquea el scroll del documento: ventanas más pequeñas, teclado móvil, contenido largo o ampliación adicional del texto deben seguir permitiendo acceder a todos los controles.
+
+Se revisaron capturas claras/oscuras, navegación completa y ausencia de solicitudes externas o persistencia de credenciales. Compilación y 31 pruebas de lógica aprobadas. Sigue siendo una demostración sin autenticación real; este ajuste no modifica el escritorio ni el backend.
