@@ -149,3 +149,9 @@ Joseph autorizó añadir las vistas que antes se habían excluido, manteniéndol
 - Los datos del recorrido solo viven en memoria. Al salir se descartan, sin alterar el perfil ni las obras guardadas. No hay Firebase, solicitudes externas de autenticación, tokens ni contraseñas en almacenamiento.
 
 Validación: build y pruebas de cálculos; recorrido de navegador en 360, 390, 768, 1024 y 1440 px, claro/oscuro, registro y confirmación coincidente, recuperación, Google simulado, regreso a obras y ausencia de persistencia de datos de acceso o solicitudes externas. Es una propuesta de UX, no paridad completa con escritorio ni implementación de licencias.
+
+## Ajuste de tamaños de pantalla (16/11/2026)
+
+Inicio y áreas de obra aprovechan el ancho disponible, con márgenes laterales fluidos y menor espacio superior. Mis obras queda alineado a la izquierda y sus acciones agrupadas a la derecha, con salto de fila en móvil. Las tarjetas se redistribuyen por ancho y los nombres largos no ensanchan el documento. Tablas y gráficas conservan su desplazamiento dentro del panel.
+
+Revisión en navegador local: inicio, perfil, modal de creación y las nueve secciones de obra, entre 320 y 1920 px, sin desbordamiento horizontal del documento. Las tablas anchas se desplazan dentro de su contenedor. Build y 31 pruebas numéricas aprobados. Los espacios vacíos por tener pocas obras corresponden a datos disponibles, sin añadir tarjetas ficticias para rellenar.

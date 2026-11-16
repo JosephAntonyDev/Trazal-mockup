@@ -27,12 +27,12 @@
 @media(max-width:1100px) { .works-topbar:has(.works-account-entry) .pill { display:none; } }
 @media(max-width:900px) { .works-topbar:has(.works-account-entry) .works-profile-button>span:first-child { display:none; } }
 .works-slash { color:var(--theme-muted, #aeb2a4); padding:0 14px; }
-.works-home { max-width:1560px; margin:auto; }
-.works-main { padding:36px 38px 24px; max-width:1600px; margin:auto; min-width:0; }
-.works-home-main { padding:65px 64px; }
+.works-home { width:100%; min-width:0; }
+.works-main { padding:28px clamp(20px,2.4vw,48px); width:100%; max-width:none; min-width:0; }
+.works-home-main { padding:28px clamp(20px,2.4vw,48px); }
 .works-heading { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:34px; }
 .works-heading h1 { font-size:32px; line-height:1.2; margin:12px 0; letter-spacing:-1px; }
-.works-home-main h1 { font-size:44px; }
+.works-home-main h1 { font-size:clamp(30px,2.6vw,42px); }
 .works-heading p { color:var(--theme-secondary, #656d5c); font-size:17px; margin:0; }
 .works-heading .eyebrow { font-size:11px; letter-spacing:1.8px; }
 .works-heading-actions { display:flex; align-items:center; gap:20px; }
@@ -40,7 +40,10 @@
 .works-cut input { background:var(--theme-surface, white); border:1px solid var(--theme-border, #dce0d1); border-radius:8px; padding:10px; font-size:15px; color:var(--ink); }
 .works-app .pill { display:inline-flex; align-items:center; gap:6px; font-size:12px; white-space:nowrap; }
 .works-home-tools,.works-toolbar { display:flex; justify-content:space-between; gap:16px; align-items:center; margin:24px 0; flex-wrap:wrap; }
-.works-home-tools h2 { font-size:22px; }
+.works-home-tools h2 { font-size:22px; margin:0; }
+.works-home-actions { display:flex; align-items:center; flex-wrap:wrap; gap:12px 20px; }
+.works-home-tools { justify-content:flex-start; margin:20px 0; }
+.works-home-tools .works-home-actions { margin-left:auto; }
 .works-home-tools h2>span { font-size:14px; color:var(--theme-secondary, #6e7762); margin-left:10px; }
 .works-filters { border:1px solid var(--theme-border, #e0e4d6); background:var(--theme-surface, #fff); border-radius:12px; padding:22px; margin-bottom:24px; }
 .works-filter-main { display:grid; grid-template-columns:minmax(220px,1.6fr) minmax(160px,1fr) minmax(150px,.8fr) auto; align-items:end; gap:16px; }
@@ -153,7 +156,7 @@
 .works-daily-row input { margin:0; }
 .works-daily-row>span:last-child { color:var(--theme-secondary, #7a846b); }
 .works-daily-total { background:var(--theme-surface, #f5f4e5); padding:16px; border-radius:8px; font-size:16px; }
-@media(max-width:1200px) { .works-sidebar{width:225px;padding:25px 12px}.works-shell{margin-left:225px}.works-main{padding:28px 24px}.works-home-main{padding:45px 35px}.works-topbar{padding:0 24px}.works-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.works-heading{align-items:flex-start}.works-heading-actions{flex-direction:column;align-items:flex-end;gap:10px}.works-app .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.works-app .metric strong{font-size:26px}.works-toolbar .title-with-help{flex:1 0 250px} }
+@media(max-width:1200px) { .works-sidebar{width:225px;padding:25px 12px}.works-shell{margin-left:225px}.works-main{padding:28px 24px}.works-home-main{padding:26px 24px}.works-topbar{padding:0 24px}.works-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.works-heading{align-items:flex-start}.works-heading-actions{flex-direction:column;align-items:flex-end;gap:10px}.works-app .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.works-app .metric strong{font-size:26px}.works-toolbar .title-with-help{flex:1 0 250px} }
 @media(max-width:760px) { .works-sidebar{position:static;width:100%;padding:16px 20px}.works-sidebar .brand,.works-project-name,.works-local{display:none}.works-back{margin:0 0 14px;width:max-content}.works-sidebar nav{display:flex;overflow:auto;gap:6px;padding-bottom:5px}.works-sidebar nav button{white-space:nowrap;flex-shrink:0;padding:12px;font-size:14px}.works-shell{margin:0}.works-topbar{height:65px;padding:0 20px}.works-topbar>span{display:none}.works-topbar>div{width:100%;justify-content:space-between}.works-home .works-topbar .pill{display:none}.works-home .works-topbar>div{width:auto}.works-main,.works-home-main{padding:28px 20px}.works-heading{display:block;margin-bottom:25px}.works-heading h1,.works-home-main h1{font-size:30px}.works-heading>.button{margin-top:22px}.works-heading-actions{margin-top:20px;flex-direction:row;justify-content:space-between;align-items:center}.works-project-grid{grid-template-columns:1fr}.works-home-tools h2{font-size:20px}.works-start{display:block;padding:24px}.works-step-number{margin-bottom:16px}.works-start .text-button{margin-top:20px;white-space:normal}.works-home-footer{align-items:flex-start;line-height:1.6}.works-next{display:block;padding:24px}.works-next .button{margin-top:22px}.works-app .metric-grid{gap:12px}.works-app .metric{padding:14px}.works-app .metric strong{font-size:20px;overflow-wrap:anywhere}.works-app .metric span{font-size:13px}.works-app .metric .help-trigger{width:28px;height:28px}.works-performance{grid-template-columns:1fr;gap:0}.works-performance strong{font-size:22px}.works-curve{padding:0 8px 12px;overflow:auto}.works-curve svg{min-width:540px}.works-caption{padding:0 8px}.works-budget-bottom{display:block}.works-totals{margin-top:24px}.works-report{padding:24px}.works-report-numbers{grid-template-columns:1fr 1fr;gap:20px}.works-report-numbers strong{font-size:18px}.works-three-fields{grid-template-columns:1fr}.works-expense-total{gap:20px}.works-expense-total strong{font-size:21px}.works-footer{align-items:flex-start}.works-toolbar>div:not(.title-with-help){width:100%}.works-toolbar .button{flex:1;justify-content:center}.works-home-tools{align-items:flex-start}.works-app .table-scroll{max-width:100%;overflow-x:auto}.works-modal .works-daily-row{grid-template-columns:1fr 90px 35px;gap:8px;font-size:14px} }
 @media print { .works-sidebar,.works-topbar,.works-heading,.works-toolbar,.works-footer,.works-modal,.toast{display:none!important}.works-shell{margin:0}.works-app,.works-main{background:var(--theme-surface, white);padding:0}.works-report{border:0;padding:0;box-shadow:none}.works-report h2{font-size:24px!important}.works-report-numbers{break-inside:avoid}.works-report li{color:var(--theme-text, #30342b)}.works-report{display:block!important} }
 .works-app .button:disabled,.works-modal .button:disabled { background:var(--theme-surface, #e7e8e4); border-color:var(--theme-border, #dedfd9); color:var(--theme-secondary, #92968d); opacity:1; cursor:not-allowed; box-shadow:none; }
@@ -266,3 +269,9 @@
 @media(max-width:760px){.works-sidebar nav{display:none!important}.works-sidebar .works-back{margin-bottom:12px}.works-mobile-nav{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--theme-secondary,#69725d)}.works-mobile-nav select{flex:1;min-width:0;min-height:46px;padding:10px 12px;font-size:16px;border-radius:8px;border:1px solid var(--theme-border,#dce0d1);background:var(--theme-surface,#fff);color:var(--theme-text,#30342b)}}
 .import-options{display:grid;grid-template-columns:minmax(180px,2fr) repeat(2,minmax(110px,1fr));gap:16px;margin:20px 0}.import-columns{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px}.import-filename{display:inline-block;margin:12px;overflow-wrap:anywhere}.import-preview{max-height:300px;overflow:auto;margin:22px 0}.import-preview input[type=checkbox]{width:20px;height:20px}.import-preview td{vertical-align:top}.import-preview .form-error{font-size:14px}.works-modal input[type=checkbox]{width:20px;height:20px}.works-modal>label.restore-confirm{display:flex;flex-direction:row;gap:12px;line-height:1.6}.works-modal>label.restore-confirm input{flex-shrink:0}
 @media(max-width:540px){.import-options{grid-template-columns:1fr 1fr}.import-options>label:first-child{grid-column:1/-1}.import-columns{grid-template-columns:1fr 1fr}.import-preview table{min-width:650px}}
+
+/* Use the available screen width; keep long data inside its own panel. */
+.works-heading>div,.works-heading-actions,.works-toolbar>div { min-width:0; }
+.works-project-card h2,.works-heading h1 { overflow-wrap:anywhere; }
+.works-project-grid { grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); }
+@media(max-width:760px) { .works-home-tools .works-home-actions { width:100%;margin-left:0; }.works-home-actions>.button { flex:1; }.works-home-actions .text-button { min-height:42px; }.works-heading-actions {flex-wrap:wrap}.works-toolbar .button {white-space:normal}.works-project-grid {grid-template-columns:1fr} }
