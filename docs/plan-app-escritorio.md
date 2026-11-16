@@ -1,6 +1,8 @@
 # Trazal · Plan para iniciar la aplicación de escritorio
 
-Preparado el 12 de noviembre de 2026; actualizado el 13 de noviembre. Estado: propuesta para acordar con el equipo; todavía no se ha iniciado la aplicación de escritorio.
+Preparado el 12 de noviembre de 2026. **Documento histórico de planificación**, contextualizado al 15/11/2026: el escritorio ya se inició con C# / WPF / .NET Framework 4.8 y SQLite, versión 0.6.1. La API 0.6.0 ya está desplegada en Cloudflare con Neon/Firebase; falta probar el flujo autenticado real y Windows 7 SP1.
+
+El texto siguiente conserva las alternativas y metas originales, no es una lista vigente de trabajo sin iniciar. Fuente actual: [README de escritorio](https://github.com/JosephAntonyDev/Trazal-app) y [estado del equipo](https://github.com/JosephAntonyDev/Trazal-API-TS/blob/main/docs/ESTADO-Y-CONTINUIDAD.md). La persistencia implementada utiliza un SQLite por espacio/cuenta con varias obras, no un archivo por obra como se propuso inicialmente.
 
 ## 1. La decisión que cambia con Windows 7
 
@@ -13,7 +15,7 @@ El primer usuario necesita Windows 7. Flutter actual documenta Windows 10 y 11 c
 | Windows 7 es obligatorio | C# + WPF + .NET Framework 4.8, con SQLite local | Aplicación Windows; validar instalador, bibliotecas y rendimiento en Windows 7 SP1 real. |
 | Se puede utilizar un equipo con Windows admitido por Flutter | Mantener Flutter + Dart | Aprovecha la experiencia del equipo y facilita una aplicación móvil futura. |
 
-**Recomendación bajo el requisito actual: evaluar primero C# + WPF + .NET Framework 4.8.** Es una propuesta de cambio respecto a Flutter, pendiente de que el equipo la acepte. No desarrollar dos interfaces en paralelo para el primer piloto.
+**Decisión adoptada posteriormente: C# + WPF + .NET Framework 4.8.** Se inició esta ruta con autorización del usuario el 13/11/2026. No desarrollar dos interfaces en paralelo para el primer piloto.
 
 Microsoft enumera .NET Framework 4.8 como instalable en Windows 7 SP1 de 32 y 64 bits. Esto no devuelve soporte a Windows 7 ni garantiza las bibliotecas de terceros. .NET Framework 4.8.1 no es el objetivo para Windows 7. [Requisitos oficiales](https://learn.microsoft.com/en-us/dotnet/framework/get-started/system-requirements).
 

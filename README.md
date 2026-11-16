@@ -2,6 +2,12 @@
 
 Prototipo local e interactivo en React, TypeScript y Vite para revisar con el ingeniero la futura aplicación de escritorio de control de obra. Usa la identidad amarilla Linde de Trazal y un caso de obra ficticio.
 
+## Estado del producto (15/11/2026)
+
+Este repositorio sigue siendo solo el mockup React/Vite, sin login, registro ni sincronización. El producto de escritorio se desarrolla en [Trazal-app](https://github.com/JosephAntonyDev/Trazal-app) con C# / WPF / .NET Framework 4.8 y SQLite, por el requisito de Windows 7 SP1 (aún pendiente de validación real). El backend TypeScript está publicado en Cloudflare, con Firebase e Hyperdrive hacia Neon. Eso no conecta automáticamente esta maqueta ni garantiza paridad de funciones.
+
+Para continuar el trabajo, consulta [estado y procedimiento del equipo](https://github.com/JosephAntonyDev/Trazal-API-TS/blob/main/docs/ESTADO-Y-CONTINUIDAD.md). La futura web se desarrollará en otro proyecto.
+
 ## Plan de la aplicación de escritorio
 
 El primer usuario necesita Windows 7. La app de escritorio ya se desarrolla por separado en C# + WPF + .NET Framework 4.8 y SQLite; falta validarla en Windows 7 SP1 real. El [plan inicial](docs/plan-app-escritorio.md) conserva la evaluación anterior. Este repositorio sigue siendo el mockup React para revisar la experiencia; no incluye login, registro ni Firebase.
@@ -12,7 +18,7 @@ La entrada ahora es **Mis obras**. Permite crear obras independientes, capturar 
 
 El flujo nuevo utiliza `trazal-projects-v2`. **Respaldar obras** exporta todo; **Recuperar respaldo** agrega copias sin sustituir obras existentes. El caso anterior se conserva en su propia tarjeta y mantiene sus sesiones independientes. Los respaldos antiguos se abren dentro de ese caso, desde su selector de obra.
 
-Consulta [las reglas, el ejercicio de demostración y la propuesta para Flutter](docs/reunion-2026-11-10.md). El PDF de la reunión anterior describe el caso anterior; no cubre todavía este nuevo recorrido.
+Consulta [las reglas, el ejercicio de demostración y la propuesta histórica inicial](docs/reunion-2026-11-10.md). El PDF de la reunión anterior describe el caso anterior; no cubre todavía este nuevo recorrido.
 
 La importación por pegado recibe cinco columnas: clave, descripción, unidad, cantidad y precio integrado sin IVA. **Importar XLSX** permite seleccionar hoja, rango y columnas, revisar filas válidas/inválidas y confirmar la selección antes de agregarla al presupuesto. Incluye precio en la fila siguiente. Lee valores guardados; no recalcula fórmulas ni importa el programa original. Límite para la demostración: 5 MB, 50 hojas, 10000 filas por hoja y 100 columnas. Para XLS antiguo, guardar una copia XLSX o pegar el catálogo; el escritorio sí dispone de lector XLS. Las estimaciones para cobro y correcciones formales siguen pendientes de acordar.
 
@@ -98,7 +104,7 @@ El caso incluye diferencias de fechas y presupuestos, referencias inconsistentes
 
 Las cantidades capturadas se valúan proporcionalmente al importe original. Se conserva precisión interna y se redondea al presentar; el ingeniero debe acordar la regla definitiva. Los avances iniciales por concepto corresponden al total del libro, no al corte seleccionado. Los nuevos registros son adiciones de simulación sobre esa referencia y se distinguen de los originales.
 
-Quedan por definir para Flutter: edición y versionado completo de presupuesto/APU, importador real con mapeo y validación, calendarios y precedencias, rendimientos, estimaciones/anticipos/amortizaciones, impuestos, autorizaciones, archivos por obra, respaldo, licencias e instalador. La maqueta sirve para decidir su alcance.
+En el producto siguen pendientes APU completo, versionado y correcciones autorizadas, calendarios/precedencias, rendimientos, estimaciones de cobro, licencias e instalador. El escritorio ya tiene importación con revisión, PDF/Excel y restauración; consultar su README para el alcance exacto. La maqueta sirve para validar UX, no certifica cálculos ni funciones implementadas en el escritorio.
 
 ## Organización
 
@@ -119,7 +125,7 @@ Quedan por definir para Flutter: edición y versionado completo de presupuesto/A
 - En Programa de obra se define el plazo y se ajustan las fechas de cada concepto. Cambiar las fechas de un concepto requiere revisar su distribución diaria. El programa no se fija sin fechas, IVA confirmado, precios y cantidades diarias completos.
 - IVA pendiente se guarda como `null`, distinto de una tasa confirmada de 0 %. El total con IVA se muestra «Por definir» hasta configurarlo; los respaldos anteriores siguen siendo válidos.
 - Los campos obligatorios llevan asterisco. Crear requiere campos válidos; editar requiere además un cambio respecto al valor inicial. Revertir el cambio deshabilita Guardar. Esta regla también se aplica a los formularios de la demo de referencia.
-- El avatar abre una página completa de perfil local (nombre, apellido, correo, teléfono y empresa), con regreso a la obra o al inicio. El saludo usa el nombre guardado. No hay autenticación ni conexión con Firebase en el mockup; se revisará para Flutter. El perfil se almacena aparte del respaldo de obras.
+- El avatar abre una página completa de perfil local (nombre, apellido, correo, teléfono y empresa), con regreso a la obra o al inicio. El saludo usa el nombre guardado. No hay autenticación ni conexión con Firebase en el mockup; la identidad se implementa en el escritorio WPF. El perfil se almacena aparte del respaldo de obras.
 
 - Las modales bloquean el desplazamiento del documento y cubren la pantalla completa. En pantallas de poca altura, se desplaza el contenido de la modal; al cerrarla se recupera la posición de la página.
 
