@@ -4,13 +4,13 @@ Prototipo local e interactivo en React, TypeScript y Vite para revisar con el in
 
 ## Estado del producto (15/11/2026)
 
-Este repositorio sigue siendo solo el mockup React/Vite, sin login, registro ni sincronización. El producto de escritorio se desarrolla en [Trazal-app](https://github.com/JosephAntonyDev/Trazal-app) con C# / WPF / .NET Framework 4.8 y SQLite, por el requisito de Windows 7 SP1 (aún pendiente de validación real). El backend TypeScript está publicado en Cloudflare, con Firebase e Hyperdrive hacia Neon. Eso no conecta automáticamente esta maqueta ni garantiza paridad de funciones.
+Este repositorio sigue siendo solo el mockup React/Vite, con recorrido visual de login/registro y sin autenticación real ni sincronización. El producto de escritorio se desarrolla en [Trazal-app](https://github.com/JosephAntonyDev/Trazal-app) con C# / WPF / .NET Framework 4.8 y SQLite, por el requisito de Windows 7 SP1 (aún pendiente de validación real). El backend TypeScript está publicado en Cloudflare, con Firebase e Hyperdrive hacia Neon. Eso no conecta automáticamente esta maqueta ni garantiza paridad de funciones.
 
 Para continuar el trabajo, consulta [estado y procedimiento del equipo](https://github.com/JosephAntonyDev/Trazal-API-TS/blob/main/docs/ESTADO-Y-CONTINUIDAD.md). La futura web se desarrollará en otro proyecto.
 
 ## Plan de la aplicación de escritorio
 
-El primer usuario necesita Windows 7. La app de escritorio ya se desarrolla por separado en C# + WPF + .NET Framework 4.8 y SQLite; falta validarla en Windows 7 SP1 real. El [plan inicial](docs/plan-app-escritorio.md) conserva la evaluación anterior. Este repositorio sigue siendo el mockup React para revisar la experiencia; no incluye login, registro ni Firebase.
+El primer usuario necesita Windows 7. La app de escritorio ya se desarrolla por separado en C# + WPF + .NET Framework 4.8 y SQLite; falta validarla en Windows 7 SP1 real. El [plan inicial](docs/plan-app-escritorio.md) conserva la evaluación anterior. Este repositorio sigue siendo el mockup React para revisar la experiencia; incluye pantallas de acceso de ejemplo; no se conecta con Firebase.
 
 ## Actualización de la reunión del 10 de noviembre
 
@@ -52,7 +52,7 @@ En **Mis obras**, pulsa **Cargar obra de ejemplo** para revisar una obra fictici
 - **Acuerdos y reporte:** presupuesto, programa, historial de avances, categorías, detalle de gastos y gráfica, con impresión/PDF y Excel de ocho hojas. La hoja Curva S contiene datos; la gráfica aparece en el PDF.
 - **Respaldos:** vista previa de obras y conteos; exige confirmar antes de recuperar copias. Conserva insumos y efectivo, además del contenido anterior. No reemplaza las obras existentes.
 
-Perfil con placeholders, temas claro/oscuro/sistema y selector de sección en móvil. Todo se guarda en el navegador y se puede respaldar en JSON; no hay cuenta, nube ni sincronización en este mockup. La futura web partirá de otro proyecto.
+Perfil con placeholders, temas claro/oscuro/sistema y selector de sección en móvil. Las obras se guardan en el navegador y se pueden respaldar en JSON. El recorrido de cuenta es una simulación separada: no guarda sus formularios ni conecta con la nube. La futura web partirá de otro proyecto.
 
 Verificación: `npm test` (31 casos), compilación TypeScript/Vite, pruebas en Chrome de formularios, XLSX, reportes, respaldos, persistencia y vista móvil. No usar este prototipo como control contable real.
 
@@ -94,7 +94,7 @@ npm run build
 
 ## Qué funciona en el caso anterior
 
-Diez vistas, filtros y búsquedas, detalle por concepto, 16 cortes, gráfico acumulado, cálculo de valor ganado, capturas simuladas de avance/costo, escenario de fechas y BAC, ejercicio de caja, borradores de reporte, notas, acuerdos, exportaciones CSV/JSON/Markdown y recuperación de sesión JSON. Todo se ejecuta en el navegador; no hay cuentas, telemetría ni API externa.
+Diez vistas, filtros y búsquedas, detalle por concepto, 16 cortes, gráfico acumulado, cálculo de valor ganado, capturas simuladas de avance/costo, escenario de fechas y BAC, ejercicio de caja, borradores de reporte, notas, acuerdos, exportaciones CSV/JSON/Markdown y recuperación de sesión JSON. Todo se ejecuta en el navegador; no hay cuentas reales, telemetría ni API externa.
 
 ## Alcance y decisiones abiertas
 
@@ -135,3 +135,17 @@ En el producto siguen pendientes APU completo, versionado y correcciones autoriz
 El selector de la cabecera ofrece **Claro**, **Oscuro** y **Sistema** en el inicio, las obras, la demo de referencia y el perfil. La elección se guarda en `trazal-theme-v1`, se comparte entre pestañas del mismo origen y no modifica las obras. Sistema es la opción inicial y sigue los cambios de apariencia del equipo. Sin almacenamiento disponible, el tema funciona durante la sesión.
 
 `src/Theme.tsx` gestiona la preferencia; `src/theme.css` define la paleta oscura y los ajustes de contraste. Los estilos existentes usan colores claros de respaldo en sus variables. Las curvas conservan azul (programa), gris (avance) y rojo (gasto) con tonos más claros en oscuro. La paleta oscura se limita a pantalla para conservar la impresión clara. El HTML autónomo incluye ambos temas.
+
+## Recorrido de cuenta, acceso y licencia (15/11/2026)
+
+Joseph autorizó añadir las vistas que antes se habían excluido, manteniéndolas **solo como demostración**. En la cabecera pulsa **Mi cuenta**, o entra desde **Mi perfil → Mi cuenta y licencia · ejemplo**. El acceso es opcional y no bloquea la revisión de obras.
+
+- Inicio de sesión y registro con asteriscos, ejemplos, mostrar/ocultar contraseña y botones deshabilitados hasta completar datos válidos.
+- **Rellenar con datos de ejemplo** evita usar credenciales personales.
+- Google abre una cuenta de muestra sin contactar a Google ni Firebase.
+- **Olvidé mi contraseña** recorre correo → confirmación simulada → nueva contraseña → confirmación; no envía correos ni modifica una contraseña real. En escritorio el enlace de Firebase abre el navegador; el aspecto de ese formulario alojado no es necesariamente el de esta propuesta.
+- La cuenta de ejemplo permite revisar licencia y nube local/activa/vencida. La licencia activa está marcada como ejemplo; no representa una activación, compra ni verificación.
+- Vencida: conserva lo previamente sincronizado y permite consultar/descargar; las nuevas obras y cambios se quedan locales. Es la política propuesta, todavía no una restricción comercial implementada en el backend.
+- Los datos del recorrido solo viven en memoria. Al salir se descartan, sin alterar el perfil ni las obras guardadas. No hay Firebase, solicitudes externas de autenticación, tokens ni contraseñas en almacenamiento.
+
+Validación: build y pruebas de cálculos; recorrido de navegador en 360, 390, 768, 1024 y 1440 px, claro/oscuro, registro y confirmación coincidente, recuperación, Google simulado, regreso a obras y ausencia de persistencia de datos de acceso o solicitudes externas. Es una propuesta de UX, no paridad completa con escritorio ni implementación de licencias.

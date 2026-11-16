@@ -11,6 +11,7 @@ import LegacyApp from './App';
 import {Help} from './Help';
 import {ReadyForm, Required} from './ReadyForm';
 import {ProfileView} from './ProfileView';
+import {AccountPreview} from './AccountPreview';
 import {useModalScrollLock} from './useModalScrollLock';
 import {materials, MaterialCredit} from './materials';
 import {budgetTotals, conceptTotal, distributeDaily, findProjects, freezeProject, parseCatalog, progressAt, projectMetrics, projectSeries, recordExpense, recordProgress, saveConcept, scheduleProject, validateProjects} from './project-core.mjs';
@@ -64,6 +65,8 @@ export default function Works() {
   const [projects,setProjects] = useState<Project[]>(()=>{try {return validateProjects(JSON.parse(localStorage.getItem(KEY)||'{"version":2,"projects":[]}')).projects;}catch{return [];}});
   const [profile,setProfile] = useState(()=>{try{const p=JSON.parse(localStorage.getItem('trazal-profile-v1')||'null');if(p&&typeof p.firstName==='string'&&p.firstName.trim()&&['lastName','email','phone','company'].every(k=>typeof p[k]==='string'))return p as {firstName:string;lastName:string;email:string;phone:string;company:string};}catch{/* Start with a local demo profile. */}return {firstName:'Joseph',lastName:'',email:'',phone:'',company:''};});
   const [profileOpen,setProfileOpen] = useState(false);
+  const [accountOpen,setAccountOpen] = useState(false);
+  function openAccount(){setAccountOpen(true);window.scrollTo({top:0,behavior:'instant'});}
   const [selected,setSelected] = useState<string|null>(null);
   const [page,setPage] = useState<Page>('summary');
   const [cutoff,setCutoff] = useState(today);
@@ -160,12 +163,13 @@ export default function Works() {
   if(modal?.kind==='freeze'){try{freezeProject(project);}catch{formReady=false;}}
 
 
-  if(profileOpen)return <ProfileView profile={profile} onSave={next=>{localStorage.setItem('trazal-profile-v1',JSON.stringify(next));setProfile(next);}} onBack={()=>{setProfileOpen(false);window.scrollTo({top:0,behavior:'instant'});}} backLabel={project?'Volver a la obra':'Volver a mis obras'}/>;
+  if(accountOpen)return <AccountPreview onBack={()=>{setAccountOpen(false);setProfileOpen(false);setSelected(null);window.scrollTo({top:0,behavior:'instant'});}}/>;
+  if(profileOpen)return <ProfileView onAccount={openAccount} profile={profile} onSave={next=>{localStorage.setItem('trazal-profile-v1',JSON.stringify(next));setProfile(next);}} onBack={()=>{setProfileOpen(false);window.scrollTo({top:0,behavior:'instant'});}} backLabel={project?'Volver a la obra':'Volver a mis obras'}/>;
   if(selected==='legacy') return <LegacyApp onWorks={()=>setSelected(null)}/>;
   return <div className="works-app">
     {project&&<aside className="works-sidebar"><button className="brand" onClick={()=>setSelected(null)}><img src="/brand/symbol-mono.svg" alt=""/><span>trazal<small>CONTROL DE OBRA</small></span></button><button className="button works-back" onClick={()=>setSelected(null)}><ArrowLeft size={17}/> Mis obras</button><div className="works-project-name"><strong>{project.name}</strong><span>{project.type}</span></div><label className="works-mobile-nav">Ir a sección<select aria-label="Sección de la obra" value={page} onChange={e=>go(e.target.value as Page)}>{pages.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}</select></label><nav aria-label="Secciones de la obra">{pages.map(p=><button key={p.id} aria-current={page===p.id?'page':undefined} onClick={()=>go(p.id)}><p.icon size={19}/>{p.label}</button>)}</nav><div className="works-local"><HardDrive size={17}/>{saved?'Guardado en este navegador':'No se pudo guardar. Exporta un respaldo.'}</div></aside>}
     <div className={project?'works-shell':'works-home'}>
-      <header className="works-topbar">{project?<span>{project.name} <span className="works-slash">/</span> {selectedTitle}</span>:<img src="/brand/horizontal-mono.svg" alt="Trazal"/>}<div><ThemeSelect/><span className="pill yellow">Mockup · revisión con el ingeniero</span><button className="works-profile-button" onClick={()=>{setProfileOpen(true);window.scrollTo({top:0,behavior:'instant'});}} aria-label="Abrir mi perfil"><span>Bienvenido, <strong>{profile.firstName}</strong></span><span className="works-avatar">{(profile.firstName[0]+(profile.lastName[0]||'')).toLocaleUpperCase()}</span></button></div></header>
+      <header className="works-topbar">{project?<span>{project.name} <span className="works-slash">/</span> {selectedTitle}</span>:<img src="/brand/horizontal-mono.svg" alt="Trazal"/>}<div><ThemeSelect/><button className="button works-account-entry" onClick={openAccount}><LockKeyhole size={17}/>Mi cuenta</button><span className="pill yellow">Mockup · revisión con el ingeniero</span><button className="works-profile-button" onClick={()=>{setProfileOpen(true);window.scrollTo({top:0,behavior:'instant'});}} aria-label="Abrir mi perfil"><span>Bienvenido, <strong>{profile.firstName}</strong></span><span className="works-avatar">{(profile.firstName[0]+(profile.lastName[0]||'')).toLocaleUpperCase()}</span></button></div></header>
       {!project?<main className="works-main works-home-main">
         <div className="works-heading"><div><span className="eyebrow">TU ESPACIO DE TRABAJO</span><h1>Cada obra, en orden.</h1><p>Del catálogo al control diario de avance y gasto.</p></div><button className="button primary" onClick={()=>open('create')}><Plus size={18}/> Crear obra</button></div>
         <div className="works-home-tools"><button className="button" onClick={()=>{const demo=demoWork();setProjects(list=>[...list,demo]);choose(demo);setCutoff(demo.progress[0].end);setNotice('Obra ficticia cargada. Puedes editar insumos, capturar gastos y recorrer las secciones.');}}>Cargar obra de ejemplo</button><h2>Mis obras <span>{projects.length}</span></h2><button className="text-button" onClick={exportAll}><Download size={17}/> Respaldar obras</button><button className="text-button" onClick={()=>backup.current?.click()}><Upload size={17}/> Recuperar respaldo</button></div>

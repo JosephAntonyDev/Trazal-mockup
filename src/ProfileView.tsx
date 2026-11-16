@@ -1,12 +1,12 @@
 import {ThemeSelect} from './Theme';
 import {useState, type FormEvent} from 'react';
-import {ArrowLeft, Check, UserRound} from 'lucide-react';
+import {ArrowLeft, Check, UserRound, LockKeyhole} from 'lucide-react';
 import {ReadyForm, Required} from './ReadyForm';
 import {Help} from './Help';
 
 export type Profile={firstName:string;lastName:string;email:string;phone:string;company:string};
 
-export function ProfileView({profile,onSave,onBack,backLabel}:{profile:Profile;onSave:(value:Profile)=>void;onBack:()=>void;backLabel:string}) {
+export function ProfileView({profile,onSave,onBack,onAccount,backLabel}:{onAccount:()=>void;profile:Profile;onSave:(value:Profile)=>void;onBack:()=>void;backLabel:string}) {
   const [error,setError]=useState('');
   const [saved,setSaved]=useState(false);
   function save(event:FormEvent<HTMLFormElement>){
@@ -22,7 +22,7 @@ export function ProfileView({profile,onSave,onBack,backLabel}:{profile:Profile;o
   return <div className="works-app profile-page">
     <header className="works-topbar"><img src="/brand/horizontal-mono.svg" alt="Trazal"/><div className="profile-top-actions"><ThemeSelect/><button className="text-button" onClick={onBack}><ArrowLeft size={18}/>{backLabel}</button></div></header>
     <main className="profile-main">
-      <div className="works-heading"><div><div className="title-with-help"><h1>Mi perfil</h1><Help title="Mi perfil">Estos datos se guardan solo en este navegador. El acceso con una cuenta se integrará en la aplicación de escritorio. El perfil no se incluye en los respaldos de obras.</Help></div><p>Administra tus datos personales y de contacto.</p></div></div>
+      <div className="works-heading"><div><div className="title-with-help"><h1>Mi perfil</h1><Help title="Mi perfil">Estos datos se guardan solo en este navegador. El recorrido de Mi cuenta es una demostración separada: no modifica este perfil ni autentica al usuario. El perfil no se incluye en los respaldos de obras.</Help></div><p>Administra tus datos personales y de contacto.</p></div><button className="button" onClick={onAccount}><LockKeyhole size={18}/>Mi cuenta y licencia · ejemplo</button></div>
       <section className="profile-panel" aria-label="Editar mi perfil">
         <header className="profile-identity-bar"><span className="works-avatar">{(profile.firstName[0]+(profile.lastName[0]||'')).toLocaleUpperCase()}</span><div><h2>{profile.firstName} {profile.lastName}</h2><p>{profile.company||'Tu espacio en Trazal'}</p></div><span className="pill yellow"><UserRound size={14}/> Perfil local</span></header>
         <div className="profile-details">
